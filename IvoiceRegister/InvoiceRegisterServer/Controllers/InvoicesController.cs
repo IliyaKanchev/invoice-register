@@ -64,10 +64,19 @@ namespace InvoiceRegisterServer.Controllers
 
         // POST api/invoices/insert
         [HttpPost("insert")]
-        public TestModel Insert([FromBody]TestModel value)
+        public IActionResult Insert([FromBody]Invoice value)
         {
-            value.Text += " insert";
-            return value;
+            IEnumerable<Client> clients = _context.Clients.Where(x => x.Id == value.ClientId);
+            if (!clients.Any()) return NotFound("There's no client associated with that invoice.");
+
+            value.Id = 0;
+            value.Client = clients.First();
+            value.ClientId = value.Client.Id;
+
+            _context.Invoices.Add(value);
+            _context.SaveChanges();
+
+            return Ok(value);
         }
 
         // POST api/invoices/update
