@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace InvoiceRegisterServer.Code
 {
@@ -29,8 +30,9 @@ namespace InvoiceRegisterServer.Code
         public DateTime Date { get => _date; set => _date = value; }
         public string Description { get => _description; set => _description = value; }
         public double Sum { get => _sum; set => _sum = value; }
-        public int ClientId { get => _clientId; set => _clientId = value; }
-        public Client Client { get => _client; set => _client = value; }
+
+        [JsonProperty("client_id")] public int ClientId { get => _clientId; set => _clientId = value; }
+        [JsonIgnore] public Client Client { get => _client; set => _client = value; }
     }
 
     public class Client

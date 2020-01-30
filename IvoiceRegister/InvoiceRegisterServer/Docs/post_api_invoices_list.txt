@@ -1,0 +1,58 @@
+﻿POST api/invoices/list
+------------------------------------------------
+
+This endpoint returns a filtered list of invoices. If an empty JSON object is 
+sent, it returns all of the invoices
+
+Supported fields:
+    "id"<int>: Record ID. 
+    "number"<int>: Invoice #. 
+    "date"<str>: Date of invoice creation. JSON formated time string.
+    "description"<str>: Invoice description. Supports only exact matches.
+    "sum"<float>: Invoice total sum.
+    "client_id"<int>: Invoices client id.
+
+Examples:
+
+    Send:
+        {
+            "client_id": 1,
+            "id": 1
+        }
+        
+    Receive:
+        [
+            {
+                "id": 1,
+                "number": 1,
+                "date": "2020-01-30T14:11:49.4315877",
+                "description": "description 1",
+                "sum": 100.0,
+                "client_id": 1
+            }
+        ]
+        
+    Send:
+        {
+            "client_id": 1
+        }
+        
+    Receive:
+        [
+            {
+                "id": 1,
+                "number": 1,
+                "date": "2020-01-30T14:11:49.4315877",
+                "description": "description 1",
+                "sum": 100.0,
+                "clientId": 1
+            },
+            {
+                "id": 2,
+                "number": 2,
+                "date": "2020-01-30T14:11:49.4321566",
+                "description": "description 2",
+                "sum": 200.0,
+                "client_id": 1
+            }
+        ]
