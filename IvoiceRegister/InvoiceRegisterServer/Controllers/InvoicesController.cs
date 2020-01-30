@@ -12,6 +12,15 @@ namespace InvoiceRegisterServer.Controllers
     [Route("api/[controller]")]
     public class InvoicesController : Controller
     {
+        private readonly DbServiceContext _context;
+
+        public InvoicesController(DbServiceContext context)
+        {
+            _context = context;
+        }
+
+
+
         // POST api/invoices/list
         [HttpPost("list")]
         public TestModel List([FromBody]TestModel value)

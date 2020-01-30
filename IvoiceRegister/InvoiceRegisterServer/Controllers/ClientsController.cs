@@ -12,6 +12,13 @@ namespace InvoiceRegisterServer.Controllers
     [Route("api/[controller]")]
     public class ClientsController : Controller
     {
+        private readonly DbServiceContext _context;
+
+        public ClientsController(DbServiceContext context)
+        {
+            _context = context;
+        }
+
         // POST api/clients/list
         [HttpPost("list")]
         public TestModel List([FromBody]TestModel value)
