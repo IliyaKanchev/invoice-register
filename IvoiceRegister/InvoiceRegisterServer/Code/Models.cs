@@ -92,7 +92,7 @@ namespace InvoiceRegisterServer.Code
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //base.OnConfiguring(optionsBuilder);
+            //set connection string
             optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=test;User Id=SA;Password=TEST_p@ssword1;");
 
             base.OnConfiguring(optionsBuilder);
