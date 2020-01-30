@@ -1,0 +1,10 @@
+run Microsoft SQL Server (docker): 
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=TEST_p@ssword1" -p 1433:1433 --name mssql1 -d mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+
+set up EF Core:
+1. Add context
+2. Override DbContext.OnConfiguring to provide connection string (https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext)
+3. For initial seed override DbContext.OnModelCreating (https://docs.microsoft.com/en-us/ef/core/modeling/data-seeding)
+4. Open project folder in terminal and run: dotnet ef migrations add 'Initial'
+5. Open project folder in terminal and run: dotnet ef database update
+
