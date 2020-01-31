@@ -1,5 +1,6 @@
-run Microsoft SQL Server (docker): 
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=TEST_p@ssword1" -p 1433:1433 --name mssql1 -d mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+run Microsoft SQL Server (docker): docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=TEST_p@ssword1" -p 1433:1433 --name mssql1 -d mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+save changes: docker commit /mssql1 docker/mssql1 
+run saved: docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=TEST_p@ssword1" -p 1433:1433 docker/mssql1
 
 set up EF Core:
 1. Add context
