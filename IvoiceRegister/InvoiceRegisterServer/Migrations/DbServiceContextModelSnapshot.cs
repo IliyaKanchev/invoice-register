@@ -79,7 +79,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 1,
                             ClientId = 1,
-                            Date = new DateTime(2020, 1, 30, 14, 11, 49, 431, DateTimeKind.Local).AddTicks(5877),
+                            Date = new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(2772),
                             Description = "description 1",
                             Number = 1,
                             Sum = 100.0
@@ -88,7 +88,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 2,
                             ClientId = 1,
-                            Date = new DateTime(2020, 1, 30, 14, 11, 49, 432, DateTimeKind.Local).AddTicks(1566),
+                            Date = new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8579),
                             Description = "description 2",
                             Number = 2,
                             Sum = 200.0
@@ -97,7 +97,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 3,
                             ClientId = 2,
-                            Date = new DateTime(2020, 1, 30, 14, 11, 49, 432, DateTimeKind.Local).AddTicks(1591),
+                            Date = new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8604),
                             Description = "description 3",
                             Number = 3,
                             Sum = 300.0
@@ -106,7 +106,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 4,
                             ClientId = 2,
-                            Date = new DateTime(2020, 1, 30, 14, 11, 49, 432, DateTimeKind.Local).AddTicks(1594),
+                            Date = new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8606),
                             Description = "description 4",
                             Number = 4,
                             Sum = 400.0

@@ -51,7 +51,7 @@ namespace InvoiceRegisterServer.Code
         public int Id { get => _id; set => _id = value; }
         public string Name { get => _name; set => _name = value; }
 
-        public ICollection<Invoice> Invoices { get => _invoices; set => _invoices = (List<Invoice>)value; }
+        public List<Invoice> Invoices { get => _invoices; set => _invoices = value; }
     }
 
     public class DbServiceContext : DbContext
@@ -69,6 +69,13 @@ namespace InvoiceRegisterServer.Code
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // create relations
+            modelBuilder.Entity<Invoice>()
+                .HasOne(i => i.Client)
+                .WithMany(c => c.Invoices)
+                .HasForeignKey(i => i.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // initial seed
 
             // clients seed
