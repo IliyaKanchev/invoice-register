@@ -76,10 +76,16 @@ namespace InvoiceRegisterServer.Controllers
         [HttpPost("insert")]
         public IActionResult Insert([FromBody]Invoice value)
         {
+            // Maybe remove this?
+            IEnumerable<Invoice> existing = _context.Invoices.Where(x => x.Number == value.Number);
+            if (existing.Any()) return NotFound(new ApiError("There's already a record for an invoice with this number."));
+
+            value.Id = 0;
+
+            // Maybe remove this?
             IEnumerable<Client> items = _context.Clients.Where(x => x.Id == value.ClientId);
             if (!items.Any()) return NotFound(new ApiError("There's no client associated with that invoice."));
 
-            value.Id = 0;
             value.Client = items.First();
             value.ClientId = value.Client.Id;
 
