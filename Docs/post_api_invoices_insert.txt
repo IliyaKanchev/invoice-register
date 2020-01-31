@@ -1,0 +1,39 @@
+﻿POST api/invoices/insert
+------------------------------------------------
+
+This endpoint returns an inserted invoice on success or error object and errno 404 on failure. 
+It can accept partial invoice data.
+
+Supported fields:
+    "number"<int>: Invoice #. 
+    "date"<str>: Date of invoice creation. JSON formated time string.
+    "description"<str>: Invoice description. Supports only exact matches.
+    "sum"<float>: Invoice total sum.
+    "client_id"<int>: Invoices client id.
+
+Examples:
+
+    Send:
+        {
+            "client_id": 1
+        }
+        
+    Receive:
+        {
+            "id": 1002,
+            "number": 0,
+            "date": "2020-01-31T09:39:59.8973908+02:00",
+            "description": "",
+            "sum": 0.0,
+            "client_id": 1
+        }
+        
+    Send:
+        {
+            "client_id": 3
+        }
+        
+    Receive:
+        {
+            "error": "There's no client associated with that invoice."
+        }

@@ -1,0 +1,42 @@
+﻿POST api/invoices/update
+------------------------------------------------
+
+This endpoint returns an updated invoice data on success or error object and 
+errno 404 on failure.
+
+Supported fields:
+    "id"<int>: Record ID. 
+    "number"<int>: Invoice #. 
+    "date"<str>: Date of invoice creation. JSON formated time string.
+    "description"<str>: Invoice description. Supports only exact matches.
+    "sum"<float>: Invoice total sum.
+    "client_id"<int>: Invoices client id.
+
+Examples:
+
+    Send:
+        {
+            "id": 1001,
+            "sum": 5.50
+        }
+        
+    Receive:
+        {
+            "id": 1001,
+            "number": 0,
+            "date": "2020-01-31T09:39:30.7610201",
+            "description": "",
+            "sum": 5.5,
+            "client_id": 1
+        }
+        
+    Send:
+        {
+            "id": 10,
+            "sum": 5.50
+        }
+        
+    Receive:
+        {
+            "error": "There's no invoice associated with that id."
+        }

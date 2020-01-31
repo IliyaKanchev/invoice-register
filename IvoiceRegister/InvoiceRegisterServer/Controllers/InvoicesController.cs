@@ -66,11 +66,11 @@ namespace InvoiceRegisterServer.Controllers
         [HttpPost("insert")]
         public IActionResult Insert([FromBody]Invoice value)
         {
-            IEnumerable<Client> clients = _context.Clients.Where(x => x.Id == value.ClientId);
-            if (!clients.Any()) return NotFound("There's no client associated with that invoice.");
+            IEnumerable<Client> items = _context.Clients.Where(x => x.Id == value.ClientId);
+            if (!items.Any()) return NotFound(new ApiError("There's no client associated with that invoice."));
 
             value.Id = 0;
-            value.Client = clients.First();
+            value.Client = items.First();
             value.ClientId = value.Client.Id;
 
             _context.Invoices.Add(value);
@@ -81,10 +81,55 @@ namespace InvoiceRegisterServer.Controllers
 
         // POST api/invoices/update
         [HttpPost("update")]
-        public TestModel Update([FromBody]TestModel value)
+        public IActionResult Update([FromBody]JObject value)
         {
-            value.Text += " update";
-            return value;
+            var predicate = PredicateBuilder.False<Invoice>();
+
+            foreach (JProperty property in value.Properties())
+            {
+                if (property.Name == "id")
+                {
+                    predicate = predicate.Or(x => x.Id == value.SelectToken(property.Name).Value<int>());
+                }
+            }
+
+            IEnumerable<Invoice> items = _context.Invoices.Where(predicate);
+            if (!items.Any()) return NotFound(new ApiError("There's no invoice associated with that id."));
+
+            Invoice updatable = items.First();
+
+            foreach (JProperty property in value.Properties())
+            {
+                if (property.Name == "number")
+                {
+                   updatable.Number = value.SelectToken(property.Name).Value<int>();
+                }
+
+                if (property.Name == "date")
+                {
+                   updatable.Date = value.SelectToken(property.Name).Value<DateTime>();
+                }
+
+                if (property.Name == "description")
+                {
+                    updatable.Description = value.SelectToken(property.Name).Value<string>();
+                }
+
+                if (property.Name == "sum")
+                {
+                    updatable.Sum = value.SelectToken(property.Name).Value<double>();
+                }
+
+                if (property.Name == "client_id")
+                {
+                   updatable.ClientId = value.SelectToken(property.Name).Value<int>();
+                }
+            }
+
+            _context.Invoices.Update(updatable);
+            _context.SaveChanges();
+
+            return Ok(updatable);
         }
 
         // POST api/invoices/delete
