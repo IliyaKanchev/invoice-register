@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceRegisterServer
 {
@@ -36,7 +37,9 @@ namespace InvoiceRegisterServer
                 opt.AddDebug();
             });
 
-            services.AddDbContext<DbServiceContext>();
+            services.AddDbContext<DbServiceContext>(opt => {
+                opt.UseSqlServer(Configuration.GetSection("DB").GetValue<string>("ConnectionString"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
