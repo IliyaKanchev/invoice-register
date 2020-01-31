@@ -17,6 +17,7 @@ Supported fields:
     "after"<str>: Date of invoice creation. JSON formated time string. Returns
         all records after to the corresponded time. Use with "before" for time 
         spans.
+    "reversed"<bool>: If "true" sorts results ascending by id.
 
 Examples:
 

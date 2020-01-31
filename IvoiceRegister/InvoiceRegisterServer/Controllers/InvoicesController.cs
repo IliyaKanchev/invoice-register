@@ -24,6 +24,7 @@ namespace InvoiceRegisterServer.Controllers
         [HttpPost("list")]
         public IEnumerable<Invoice> List([FromBody]JObject value)
         {
+            bool ascending = false;
             var predicate = PredicateBuilder.True<Invoice>();
 
             foreach (JProperty property in value.Properties())
@@ -67,9 +68,15 @@ namespace InvoiceRegisterServer.Controllers
                 {
                     predicate = predicate.And(x => x.Date >= value.SelectToken(property.Name).Value<DateTime>());
                 }
+
+                if (property.Name == "reversed")
+                {
+                    ascending = value.SelectToken(property.Name).Value<bool>();
+                }
             }
 
-            return _context.Invoices.Where(predicate);
+            if (ascending) return _context.Invoices.Where(predicate).OrderBy(x => x.Id);
+            else return _context.Invoices.Where(predicate).OrderByDescending(x => x.Id);
         }
 
         // POST api/invoices/insert
