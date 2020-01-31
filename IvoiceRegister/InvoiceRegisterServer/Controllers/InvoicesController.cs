@@ -96,48 +96,65 @@ namespace InvoiceRegisterServer.Controllers
             IEnumerable<Invoice> items = _context.Invoices.Where(predicate);
             if (!items.Any()) return NotFound(new ApiError("There's no invoice associated with that id."));
 
-            Invoice updatable = items.First();
+            Invoice found = items.First();
 
             foreach (JProperty property in value.Properties())
             {
                 if (property.Name == "number")
                 {
-                   updatable.Number = value.SelectToken(property.Name).Value<int>();
+                   found.Number = value.SelectToken(property.Name).Value<int>();
                 }
 
                 if (property.Name == "date")
                 {
-                   updatable.Date = value.SelectToken(property.Name).Value<DateTime>();
+                   found.Date = value.SelectToken(property.Name).Value<DateTime>();
                 }
 
                 if (property.Name == "description")
                 {
-                    updatable.Description = value.SelectToken(property.Name).Value<string>();
+                    found.Description = value.SelectToken(property.Name).Value<string>();
                 }
 
                 if (property.Name == "sum")
                 {
-                    updatable.Sum = value.SelectToken(property.Name).Value<double>();
+                    found.Sum = value.SelectToken(property.Name).Value<double>();
                 }
 
                 if (property.Name == "client_id")
                 {
-                   updatable.ClientId = value.SelectToken(property.Name).Value<int>();
+                   found.ClientId = value.SelectToken(property.Name).Value<int>();
                 }
             }
 
-            _context.Invoices.Update(updatable);
+            _context.Invoices.Update(found);
             _context.SaveChanges();
 
-            return Ok(updatable);
+            return Ok(found);
         }
 
         // POST api/invoices/delete
         [HttpPost("delete")]
-        public TestModel Delete([FromBody]TestModel value)
+        public IActionResult Delete([FromBody]JObject value)
         {
-            value.Text += " delete";
-            return value;
+            var predicate = PredicateBuilder.False<Invoice>();
+
+            foreach (JProperty property in value.Properties())
+            {
+                if (property.Name == "id")
+                {
+                    predicate = predicate.Or(x => x.Id == value.SelectToken(property.Name).Value<int>());
+                }
+            }
+
+            IEnumerable<Invoice> items = _context.Invoices.Where(predicate);
+            if (!items.Any()) return NotFound(new ApiError("There's no invoice associated with that id."));
+
+            Invoice found = items.First();
+
+            _context.Invoices.Remove(found);
+            _context.SaveChanges();
+
+            return Ok(found);
         }
     }
 }

@@ -1,0 +1,35 @@
+﻿POST api/invoices/delete
+------------------------------------------------
+
+This endpoint returns a deleted invoice data on success or error object and 
+errno 404 on failure.
+
+Supported fields:
+    "id"<int>: Record ID. 
+
+Examples:
+
+    Send:
+        {
+            "id": 1002
+        }
+        
+    Receive:
+        {
+            "id": 1002,
+            "number": 0,
+            "date": "2020-01-31T09:39:59.8973908",
+            "description": "",
+            "sum": 0.0,
+            "client_id": 1
+        }
+        
+    Send:
+        {
+            "id": 1002
+        }
+        
+    Receive:
+        {
+            "error": "There's no invoice associated with that id."
+        }
