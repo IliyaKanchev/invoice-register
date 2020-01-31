@@ -26,8 +26,6 @@ namespace InvoiceRegisterServer.Controllers
         [HttpPost("list")]
         public PagedResult<Client> List([FromBody]JObject value)
         {
-            bool ascending = false;
-
             int page = 0;
             int pageSize = 0;
             int pagesCount = 0;
@@ -46,11 +44,6 @@ namespace InvoiceRegisterServer.Controllers
                     predicate = predicate.And(x => x.Name == value.SelectToken(property.Name).Value<string>());
                 }
 
-                if (property.Name == "reversed")
-                {
-                    ascending = value.SelectToken(property.Name).Value<bool>();
-                }
-
                 if (property.Name == "page")
                 {
                     page = value.SelectToken(property.Name).Value<int>();
@@ -66,13 +59,11 @@ namespace InvoiceRegisterServer.Controllers
             {
                 pagesCount = _context.Clients.Count() / pageSize;
 
-                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderBy(x => x.Id).ToPagedList(page, pageSize).ToList());
-                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderByDescending(x => x.Id).ToPagedList(page, pageSize).ToList());
+                return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).ToPagedList(page, pageSize).ToList());
             }
             else
             {
-                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderBy(x => x.Id).ToList());
-                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderByDescending(x => x.Id).ToList());
+                return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).ToList());
             }
         }
 

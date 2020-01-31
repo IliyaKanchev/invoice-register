@@ -1,0 +1,22 @@
+﻿POST api/clients/insert
+------------------------------------------------
+
+This endpoint returns an inserted client on success or error object and errno 404 on failure. 
+It can accept partial client data.
+
+Supported fields:
+   "name"<string>: Client's name. Supports only exact matches.
+
+Examples:
+
+    Send:
+        {
+            "name": "new1",
+        }
+        
+    Receive:
+        {
+            "id": 3,
+            "name": "new1",
+            "invoices": null
+        }

@@ -1,0 +1,145 @@
+﻿POST api/clients/list
+------------------------------------------------
+
+This endpoint returns a filtered paged list of clients. If an empty JSON object 
+is sent, it returns all of the clients. If no paging is set, all of the results 
+will be shown.
+
+Supported fields:
+    "id"<int>: Record ID. 
+    "name"<string>: Client's name. Supports only exact matches.
+    "page"<int>: Select page to return. Works only with "page_size".
+    "page_size"<int>: Sets page size. Works only with "page".
+
+Examples:
+
+    Send:
+        {
+            "id": 1
+        }
+        
+    Receive:
+        {
+            "page": 0,
+            "page_size": 0,
+            "pages_count": 0,
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Client1",
+                    "invoices": [
+                        {
+                            "id": 1,
+                            "number": 1,
+                            "date": "2020-01-31T13:35:29.4962772",
+                            "description": "description 1",
+                            "sum": 100.0,
+                            "client_id": 1
+                        },
+                        {
+                            "id": 2,
+                            "number": 2,
+                            "date": "2020-01-31T13:35:29.4968579",
+                            "description": "description 2",
+                            "sum": 200.0,
+                            "client_id": 1
+                        }
+                    ]
+                }
+            ]
+        }
+        
+    Send:
+        {
+    
+        }
+        
+    Received:
+        {
+            "page": 0,
+            "page_size": 0,
+            "pages_count": 0,
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Client1",
+                    "invoices": [
+                        {
+                            "id": 1,
+                            "number": 1,
+                            "date": "2020-01-31T13:35:29.4962772",
+                            "description": "description 1",
+                            "sum": 100.0,
+                            "client_id": 1
+                        },
+                        {
+                            "id": 2,
+                            "number": 2,
+                            "date": "2020-01-31T13:35:29.4968579",
+                            "description": "description 2",
+                            "sum": 200.0,
+                            "client_id": 1
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Client2",
+                    "invoices": [
+                        {
+                            "id": 3,
+                            "number": 3,
+                            "date": "2020-01-31T13:35:29.4968604",
+                            "description": "description 3",
+                            "sum": 300.0,
+                            "client_id": 2
+                        },
+                        {
+                            "id": 4,
+                            "number": 4,
+                            "date": "2020-01-31T13:35:29.4968606",
+                            "description": "description 4",
+                            "sum": 400.0,
+                            "client_id": 2
+                        }
+                    ]
+                }
+            ]
+        }
+        
+    Send:
+        {
+            "page": 1,
+            "page_size": 1
+        }
+        
+    Receive:
+        {
+            "page": 1,
+            "page_size": 1,
+            "pages_count": 2,
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Client1",
+                    "invoices": [
+                        {
+                            "id": 1,
+                            "number": 1,
+                            "date": "2020-01-31T13:35:29.4962772",
+                            "description": "description 1",
+                            "sum": 100.0,
+                            "client_id": 1
+                        },
+                        {
+                            "id": 2,
+                            "number": 2,
+                            "date": "2020-01-31T13:35:29.4968579",
+                            "description": "description 2",
+                            "sum": 200.0,
+                            "client_id": 1
+                        }
+                    ]
+                }
+            ]
+        }
