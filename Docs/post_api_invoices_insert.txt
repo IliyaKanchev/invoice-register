@@ -7,7 +7,7 @@ It can accept partial invoice data.
 Supported fields:
     "number"<int>: Invoice #. 
     "date"<str>: Date of invoice creation. JSON formated time string.
-    "description"<str>: Invoice description. Supports only exact matches.
+    "description"<str>: Invoice description.
     "sum"<float>: Invoice total sum.
     "client_id"<int>: Invoices client id.
 

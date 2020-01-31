@@ -1,0 +1,41 @@
+﻿POST api/clients/update
+------------------------------------------------
+
+This endpoint returns an inserted client on success or error object and errno 404 on failure. 
+It can accept partial client data.
+
+Supported fields:
+   "id"<int>: Record ID. 
+   "name"<string>: Client's name.
+
+Examples:
+
+    Send:
+        {
+            "id": 1,
+            "name": "updated2",
+        }
+        
+    Receive:
+        {
+            "id": 1,
+            "name": "updated2",
+            "invoices": [
+                {
+                    "id": 1,
+                    "number": 1,
+                    "date": "2020-01-31T13:35:29.4962772",
+                    "description": "description 1",
+                    "sum": 100.0,
+                    "client_id": 1
+                },
+                {
+                    "id": 2,
+                    "number": 2,
+                    "date": "2020-01-31T13:35:29.4968579",
+                    "description": "description 2",
+                    "sum": 200.0,
+                    "client_id": 1
+                }
+            ]
+        }
