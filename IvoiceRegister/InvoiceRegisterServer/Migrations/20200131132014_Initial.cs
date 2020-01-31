@@ -58,10 +58,10 @@ namespace InvoiceRegisterServer.Migrations
                 columns: new[] { "Id", "ClientId", "Date", "Description", "Number", "Sum" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(2772), "description 1", 1, 100.0 },
-                    { 2, 1, new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8579), "description 2", 2, 200.0 },
-                    { 3, 2, new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8604), "description 3", 3, 300.0 },
-                    { 4, 2, new DateTime(2020, 1, 31, 13, 35, 29, 496, DateTimeKind.Local).AddTicks(8606), "description 4", 4, 400.0 }
+                    { 1, 1, new DateTime(2020, 1, 31, 15, 20, 14, 201, DateTimeKind.Local).AddTicks(7361), "description 1", 1, 100.0 },
+                    { 2, 1, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3213), "description 2", 2, 200.0 },
+                    { 3, 2, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3239), "description 3", 3, 300.0 },
+                    { 4, 2, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3242), "description 4", 4, 400.0 }
                 });
 
             migrationBuilder.CreateIndex(

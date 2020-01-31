@@ -59,9 +59,16 @@ namespace InvoiceRegisterServer.Code
         private DbSet<Client> _clients;
         private DbSet<Invoice> _invoices;
 
+        private readonly bool _hasConnectionString;
+
         public DbServiceContext()
         {
+            _hasConnectionString = false;
+        }
 
+        public DbServiceContext(DbContextOptions<DbServiceContext> options) : base(options)
+        {
+            _hasConnectionString = true;
         }
 
         public DbSet<Client> Clients { get => _clients; set => _clients = value; }
@@ -102,7 +109,7 @@ namespace InvoiceRegisterServer.Code
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //set connection string
-            optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=test;User Id=SA;Password=TEST_p@ssword1;");
+            if (!_hasConnectionString) optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=test;User Id=SA;Password=TEST_p@ssword1;");
 
             base.OnConfiguring(optionsBuilder);
         }
