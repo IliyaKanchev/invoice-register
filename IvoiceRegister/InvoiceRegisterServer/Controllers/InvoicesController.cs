@@ -57,6 +57,16 @@ namespace InvoiceRegisterServer.Controllers
                 {
                     predicate = predicate.And(x => x.ClientId == value.SelectToken(property.Name).Value<int>());
                 }
+
+                if (property.Name == "before")
+                {
+                    predicate = predicate.And(x => x.Date <= value.SelectToken(property.Name).Value<DateTime>());
+                }
+
+                if (property.Name == "after")
+                {
+                    predicate = predicate.And(x => x.Date >= value.SelectToken(property.Name).Value<DateTime>());
+                }
             }
 
             return _context.Invoices.Where(predicate);

@@ -11,6 +11,12 @@ Supported fields:
     "description"<str>: Invoice description. Supports only exact matches.
     "sum"<float>: Invoice total sum.
     "client_id"<int>: Invoices client id.
+    "before"<str>: Date of invoice creation. JSON formated time string. Returns
+        all records prior to the corresponded time. Use with "after" for time 
+        spans.
+    "after"<str>: Date of invoice creation. JSON formated time string. Returns
+        all records after to the corresponded time. Use with "before" for time 
+        spans.
 
 Examples:
 
@@ -53,6 +59,114 @@ Examples:
                 "date": "2020-01-30T14:11:49.4321566",
                 "description": "description 2",
                 "sum": 200.0,
+                "client_id": 1
+            }
+        ]
+        
+    Send:
+        {
+            "before": "2020-01-31T00:00:00.0000000"
+        }
+        
+    Receive:
+        [
+            {
+                "id": 1,
+                "number": 1,
+                "date": "2020-01-30T14:11:49.4315877",
+                "description": "description 1",
+                "sum": 100.0,
+                "client_id": 1
+            },
+            {
+                "id": 2,
+                "number": 2,
+                "date": "2020-01-30T14:11:49.4321566",
+                "description": "description 2",
+                "sum": 200.0,
+                "client_id": 1
+            },
+            {
+                "id": 3,
+                "number": 3,
+                "date": "2020-01-30T14:11:49.4321591",
+                "description": "description 3",
+                "sum": 300.0,
+                "client_id": 2
+            },
+            {
+                "id": 4,
+                "number": 4,
+                "date": "2020-01-30T14:11:49.4321594",
+                "description": "description 4",
+                "sum": 400.0,
+                "client_id": 2
+            }
+        ]
+        
+    Send:
+        {
+            "after": "2020-01-31T00:00:00.0000000"
+        }
+        
+    Receive:
+        [
+            {
+                "id": 1001,
+                "number": 0,
+                "date": "2020-01-31T09:39:30.7610201",
+                "description": "",
+                "sum": 5.5,
+                "client_id": 1
+            },
+            {
+                "id": 1003,
+                "number": 0,
+                "date": "2020-01-31T10:53:18.2182272",
+                "description": "",
+                "sum": 0.0,
+                "client_id": 1
+            },
+            {
+                "id": 1004,
+                "number": 0,
+                "date": "2020-01-31T10:53:20.6368769",
+                "description": "",
+                "sum": 0.0,
+                "client_id": 1
+            },
+            {
+                "id": 1005,
+                "number": 0,
+                "date": "2020-01-31T10:53:21.9998626",
+                "description": "",
+                "sum": 0.0,
+                "client_id": 1
+            }
+        ]
+        
+     Send:
+        {
+            "after": "2020-01-31T00:00:00.0000000",
+            "before": "2020-01-31T10:53:20.0000000"
+        }
+        
+     Receive:
+        [
+            {
+                "id": 1001,
+                "number": 0,
+                "date": "2020-01-31T09:39:30.7610201",
+                "description": "",
+                "sum": 5.5,
+                "client_id": 1
+            },
+            {
+                "id": 1003,
+                "number": 0,
+                "date": "2020-01-31T10:53:18.2182272",
+                "description": "",
+                "sum": 0.0,
                 "client_id": 1
             }
         ]
