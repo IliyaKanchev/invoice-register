@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InvoiceRegisterServer.Code;
 using Newtonsoft.Json.Linq;
+using X.PagedList;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,9 +23,14 @@ namespace InvoiceRegisterServer.Controllers
 
         // POST api/invoices/list
         [HttpPost("list")]
-        public IEnumerable<Invoice> List([FromBody]JObject value)
+        public PagedResult<Invoice> List([FromBody]JObject value)
         {
             bool ascending = false;
+
+            int page = 0;
+            int pageSize = 0;
+            int pagesCount = 0;
+
             var predicate = PredicateBuilder.True<Invoice>();
 
             foreach (JProperty property in value.Properties())
@@ -73,10 +79,31 @@ namespace InvoiceRegisterServer.Controllers
                 {
                     ascending = value.SelectToken(property.Name).Value<bool>();
                 }
+
+                if (property.Name == "page")
+                {
+                    page = value.SelectToken(property.Name).Value<int>();
+                }
+
+                if (property.Name == "page_size")
+                {
+                    pageSize = value.SelectToken(property.Name).Value<int>();
+                }
             }
 
-            if (ascending) return _context.Invoices.Where(predicate).OrderBy(x => x.Id);
-            else return _context.Invoices.Where(predicate).OrderByDescending(x => x.Id);
+            if (page > 0 && pageSize > 0)
+            {
+                pagesCount = _context.Invoices.Count() / pageSize;
+
+                if (ascending) return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderBy(x => x.Id).ToPagedList(page, pageSize).ToList());
+                else return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderByDescending(x => x.Id).ToPagedList(page, pageSize).ToList());
+            }
+            else
+            {
+                if (ascending) return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderBy(x => x.Id).ToList());
+                else return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderByDescending(x => x.Id).ToList());
+            }
+
         }
 
         // POST api/invoices/insert
