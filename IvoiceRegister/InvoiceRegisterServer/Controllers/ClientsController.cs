@@ -66,13 +66,13 @@ namespace InvoiceRegisterServer.Controllers
             {
                 pagesCount = _context.Clients.Count() / pageSize;
 
-                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(blog => blog.Invoices).Where(predicate).OrderBy(x => x.Id).ToPagedList(page, pageSize).ToList());
-                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Where(predicate).OrderByDescending(x => x.Id).ToPagedList(page, pageSize).ToList());
+                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderBy(x => x.Id).ToPagedList(page, pageSize).ToList());
+                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderByDescending(x => x.Id).ToPagedList(page, pageSize).ToList());
             }
             else
             {
-                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(blog => blog.Invoices).Where(predicate).OrderBy(x => x.Id).ToList());
-                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(blog => blog.Invoices).Where(predicate).OrderByDescending(x => x.Id).ToList());
+                if (ascending) return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderBy(x => x.Id).ToList());
+                else return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).OrderByDescending(x => x.Id).ToList());
             }
         }
 
@@ -102,7 +102,7 @@ namespace InvoiceRegisterServer.Controllers
                 }
             }
 
-            IEnumerable<Client> items = _context.Clients.Where(predicate);
+            IEnumerable<Client> items = _context.Clients.Include(client => client.Invoices).Where(predicate);
             if (!items.Any()) return NotFound(new ApiError("There's no client associated with that id."));
 
             Client found = items.First();
@@ -135,7 +135,7 @@ namespace InvoiceRegisterServer.Controllers
                 }
             }
 
-            IEnumerable<Client> items = _context.Clients.Where(predicate);
+            IEnumerable<Client> items = _context.Clients.Include(client => client.Invoices).Where(predicate);
             if (!items.Any()) return NotFound(new ApiError("There's no client associated with that id."));
 
             Client found = items.First();
