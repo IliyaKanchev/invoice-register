@@ -1,0 +1,49 @@
+﻿POST api/clients/delete
+------------------------------------------------
+
+This endpoint returns a deleted client data on success or error object and 
+errno 404 on failure. It also deletes any corresponding to the client invoices.
+
+Supported fields:
+    "id"<int>: Record ID. 
+
+Examples:
+
+    Send:
+        {
+            "id": 2
+        }
+        
+    Receive:
+        {
+            "id": 2,
+            "name": "Client2",
+            "invoices": [
+                {
+                    "id": 3,
+                    "number": 3,
+                    "date": "2020-01-31T13:35:29.4968604",
+                    "description": "description 3",
+                    "sum": 300.0,
+                    "client_id": 2
+                },
+                {
+                    "id": 4,
+                    "number": 4,
+                    "date": "2020-01-31T13:35:29.4968606",
+                    "description": "description 4",
+                    "sum": 400.0,
+                    "client_id": 2
+                }
+            ]
+        }
+        
+    Send:
+        {
+            "id": 2
+        }
+        
+    Receive:
+        {
+            "error": "There's no client associated with that id."
+        }
