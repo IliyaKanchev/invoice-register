@@ -80,9 +80,9 @@ namespace InvoiceRegisterServer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
 
-            app.UseMvc();
-
             app.UseAuthentication();
+
+            app.UseMvc();
         }
     }
 }
