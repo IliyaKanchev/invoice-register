@@ -1,10 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace InvoiceRegisterServer.Code
 {
+    public class User
+    {
+        private int _id;
+        private string _username;
+        private string _password;
+        private string _salt;
+        private string _token;
+
+        public User()
+        {
+            _id = 0;
+            _username = "";
+            _password = "";
+            _salt = "";
+            _token = "";
+        }
+
+        public int Id { get => _id; set => _id = value; }
+        public string Username { get => _username; set => _username = value; }
+        [JsonIgnore] public string Password { get => _password; set => _password = value; }
+        [JsonIgnore] public string Salt { get => _salt; set => _salt = value; }
+        [NotMapped] public string Token { get => _token; set => _token = value; }       
+    }
+
     public class Invoice
     {
         private int _id;
@@ -58,6 +85,7 @@ namespace InvoiceRegisterServer.Code
     {
         private DbSet<Client> _clients;
         private DbSet<Invoice> _invoices;
+        private DbSet<User> _users;
 
         private readonly bool _hasConnectionString;
 
@@ -73,6 +101,7 @@ namespace InvoiceRegisterServer.Code
 
         public DbSet<Client> Clients { get => _clients; set => _clients = value; }
         public DbSet<Invoice> Invoices { get => _invoices; set => _invoices = value; }
+        public DbSet<User> Users { get => _users; set => _users = value; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -84,6 +113,24 @@ namespace InvoiceRegisterServer.Code
                 .OnDelete(DeleteBehavior.Cascade);
 
             // initial seed
+
+            // users seed
+            // generate a 128-bit salt using a secure PRNG
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: "root",
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "root", Password = hashed, Salt = Convert.ToBase64String(salt) });
 
             // clients seed
             Client client1 = new Client() { Id = 1, Name = "Client1" };

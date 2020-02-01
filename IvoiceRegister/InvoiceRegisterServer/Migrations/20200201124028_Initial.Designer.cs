@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceRegisterServer.Migrations
 {
     [DbContext(typeof(DbServiceContext))]
-    [Migration("20200131132014_Initial")]
+    [Migration("20200201124028_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,7 +81,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 1,
                             ClientId = 1,
-                            Date = new DateTime(2020, 1, 31, 15, 20, 14, 201, DateTimeKind.Local).AddTicks(7361),
+                            Date = new DateTime(2020, 2, 1, 14, 40, 27, 854, DateTimeKind.Local).AddTicks(6297),
                             Description = "description 1",
                             Number = 1,
                             Sum = 100.0
@@ -90,7 +90,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 2,
                             ClientId = 1,
-                            Date = new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3213),
+                            Date = new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1096),
                             Description = "description 2",
                             Number = 2,
                             Sum = 200.0
@@ -99,7 +99,7 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 3,
                             ClientId = 2,
-                            Date = new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3239),
+                            Date = new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1122),
                             Description = "description 3",
                             Number = 3,
                             Sum = 300.0
@@ -108,10 +108,40 @@ namespace InvoiceRegisterServer.Migrations
                         {
                             Id = 4,
                             ClientId = 2,
-                            Date = new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3242),
+                            Date = new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1124),
                             Description = "description 4",
                             Number = 4,
                             Sum = 400.0
+                        });
+                });
+
+            modelBuilder.Entity("InvoiceRegisterServer.Code.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "HRk1GD0OjiuqVO192KZgdRtltmrWVFn5Oub5Z2BumJs=",
+                            Salt = "quuuU4fwrLI+fHAAABREBw==",
+                            Username = "root"
                         });
                 });
 

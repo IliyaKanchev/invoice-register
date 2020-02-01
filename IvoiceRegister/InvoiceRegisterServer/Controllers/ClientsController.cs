@@ -7,11 +7,13 @@ using InvoiceRegisterServer.Code;
 using Newtonsoft.Json.Linq;
 using X.PagedList;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InvoiceRegisterServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ClientsController : Controller
     {
