@@ -41,17 +41,13 @@ namespace InvoiceRegisterServer
                 opt.AddDebug();
             });
 
-            services.AddDbContext<DbServiceContext>(opt => {
-                opt.UseSqlServer(Configuration.GetSection("DB").GetValue<string>("ConnectionString"));
-            });
-
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
+            IConfigurationSection appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            AppSettings appSettings = appSettingsSection.Get<AppSettings>();
+            byte[] key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -68,6 +64,11 @@ namespace InvoiceRegisterServer
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+
+            // DB DI
+            services.AddDbContext<DbServiceContext>(opt => {
+                opt.UseSqlServer(appSettings.ConnectionString);
             });
 
             // configure DI for application services

@@ -11,26 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace InvoiceRegisterServer.Code
 {
-    public class AppSettings
-    {
-        public string Secret { get; set; }
-    }
-
-    public class Authentication
-    {
-        private string _username;
-        private string _password;
-
-        public Authentication()
-        {
-            _username = "";
-            _password = "";
-        }
-
-        public string Username { get => _username; set => _username = value; }
-        public string Password { get => _password; set => _password = value; }
-    }
-
     public interface IUserService
     {
         User Authenticate(string username, string password);
@@ -89,9 +69,6 @@ namespace InvoiceRegisterServer.Code
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
-
-            // remove password before returning
-            user.Password = null;
 
             return user;
         }
