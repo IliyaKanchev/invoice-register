@@ -1,0 +1,24 @@
+﻿POST api/users/authenticate
+------------------------------------------------
+
+This endpoint returns an objec with an authentication token. 
+
+Supported fields:
+    "username"<str>: User name.
+    "password"<str>: Password.
+
+Examples:
+
+    Send:
+        {
+            "username": "root",
+            "password": "root"
+        }
+        
+    Receive:
+        {
+            "id": 1,
+            "username": "root",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1ODA1NjQ5NjgsImV4cCI6MTU4MTE2OTc2OCwiaWF0IjoxNTgwNTY0OTY4fQ.z11pypZF487eqdVHFWYneIKxlK2UzbhcgLdKye81cYg"
+        }
+ 
