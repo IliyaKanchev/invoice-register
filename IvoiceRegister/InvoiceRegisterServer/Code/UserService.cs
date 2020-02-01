@@ -14,7 +14,6 @@ namespace InvoiceRegisterServer.Code
     public interface IUserService
     {
         User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
     }
 
     public class UserService : IUserService
@@ -71,12 +70,6 @@ namespace InvoiceRegisterServer.Code
             user.Token = tokenHandler.WriteToken(token);
 
             return user;
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            // return users without passwords
-            return _context.Users;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace InvoiceRegisterServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]Authentication userParam)
         {
             User user = _userService.Authenticate(userParam.Username, userParam.Password);
@@ -31,13 +31,6 @@ namespace InvoiceRegisterServer.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(user);
-        }
-
-        [HttpPost("list")]
-        public IActionResult GetAll()
-        {
-            var users = _userService.GetAll();
-            return Ok(users);
         }
     }
 }
