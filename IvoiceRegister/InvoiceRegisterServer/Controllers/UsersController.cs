@@ -14,7 +14,7 @@ namespace InvoiceRegisterServer.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {
@@ -23,9 +23,9 @@ namespace InvoiceRegisterServer.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Authenticate([FromBody]User userParam)
+        public IActionResult Authenticate([FromBody]Authentication userParam)
         {
-            var user = _userService.Authenticate(userParam.Username, userParam.Password);
+            User user = _userService.Authenticate(userParam.Username, userParam.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

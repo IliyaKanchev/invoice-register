@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,14 +16,19 @@ namespace InvoiceRegisterServer.Code
         public string Secret { get; set; }
     }
 
-    public class User
+    public class Authentication
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Token { get; set; }
+        private string _username;
+        private string _password;
+
+        public Authentication()
+        {
+            _username = "";
+            _password = "";
+        }
+
+        public string Username { get => _username; set => _username = value; }
+        public string Password { get => _password; set => _password = value; }
     }
 
     public interface IUserService
@@ -33,22 +39,37 @@ namespace InvoiceRegisterServer.Code
 
     public class UserService : IUserService
     {
-        // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private List<User> _users = new List<User>
-        {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
-        };
-
         private readonly AppSettings _appSettings;
+        private readonly DbServiceContext _context;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IOptions<AppSettings> appSettings, DbServiceContext context)
         {
             _appSettings = appSettings.Value;
+            _context = context;
         }
 
         public User Authenticate(string username, string password)
         {
-            var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            User user = null;
+            IQueryable<User> users = _context.Users.Where(x => x.Username == username);
+
+            foreach(User item in users)
+            {
+                byte[] salt = Convert.FromBase64String(item.Salt);
+
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+                if (hashed == item.Password)
+                {
+                    user = item;
+                    break;
+                }
+            }
 
             // return null if user not found
             if (user == null)
@@ -78,10 +99,7 @@ namespace InvoiceRegisterServer.Code
         public IEnumerable<User> GetAll()
         {
             // return users without passwords
-            return _users.Select(x => {
-                x.Password = null;
-                return x;
-            });
+            return _context.Users;
         }
     }
 }

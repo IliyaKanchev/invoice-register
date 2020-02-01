@@ -21,6 +21,21 @@ namespace InvoiceRegisterServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Salt = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -54,14 +69,19 @@ namespace InvoiceRegisterServer.Migrations
                 values: new object[] { 2, "Client2" });
 
             migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "Salt", "Username" },
+                values: new object[] { 1, "HRk1GD0OjiuqVO192KZgdRtltmrWVFn5Oub5Z2BumJs=", "quuuU4fwrLI+fHAAABREBw==", "root" });
+
+            migrationBuilder.InsertData(
                 table: "Invoices",
                 columns: new[] { "Id", "ClientId", "Date", "Description", "Number", "Sum" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2020, 1, 31, 15, 20, 14, 201, DateTimeKind.Local).AddTicks(7361), "description 1", 1, 100.0 },
-                    { 2, 1, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3213), "description 2", 2, 200.0 },
-                    { 3, 2, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3239), "description 3", 3, 300.0 },
-                    { 4, 2, new DateTime(2020, 1, 31, 15, 20, 14, 202, DateTimeKind.Local).AddTicks(3242), "description 4", 4, 400.0 }
+                    { 1, 1, new DateTime(2020, 2, 1, 14, 40, 27, 854, DateTimeKind.Local).AddTicks(6297), "description 1", 1, 100.0 },
+                    { 2, 1, new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1096), "description 2", 2, 200.0 },
+                    { 3, 2, new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1122), "description 3", 3, 300.0 },
+                    { 4, 2, new DateTime(2020, 2, 1, 14, 40, 27, 855, DateTimeKind.Local).AddTicks(1124), "description 4", 4, 400.0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -74,6 +94,9 @@ namespace InvoiceRegisterServer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Clients");
