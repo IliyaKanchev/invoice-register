@@ -28,7 +28,7 @@ namespace InvoiceRegisterServer.Controllers
             User user = _userService.Authenticate(userParam.Username, userParam.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new ApiError("Username or password is incorrect"));
 
             return Ok(user);
         }
