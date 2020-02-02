@@ -22,21 +22,21 @@ namespace InvoiceRegisterClient.Controllers
         public IActionResult Index()
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            PagedResultViewModel<ClientViewModel> model = new PagedResultViewModel<ClientViewModel>();
 
             if (token == null)
             {
                 return Redirect("~/authenticate");
             }
 
-            PagedResultViewModel<ClientViewModel> list = _clientsService.List(token);
+            bool status = _clientsService.List(token, model);
 
-            if (list == null)
+            if (!status)
             {
-                list = new PagedResultViewModel<ClientViewModel>();
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
             }
 
-            return View(list);
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -44,10 +44,26 @@ namespace InvoiceRegisterClient.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(PagedResultViewModel<ClientViewModel> model)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.List(token, model);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return View(model);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

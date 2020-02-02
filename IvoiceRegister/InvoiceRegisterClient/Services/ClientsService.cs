@@ -5,12 +5,13 @@ using InvoiceRegisterClient.Helpers;
 using InvoiceRegisterClient.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace InvoiceRegisterClient.Services
 {
     public interface IClientsService
     {
-        PagedResultViewModel<ClientViewModel> List(string token);
+        bool List(string token, PagedResultViewModel<ClientViewModel> model);
     }
 
     public class ClientsService : IClientsService
@@ -22,15 +23,22 @@ namespace InvoiceRegisterClient.Services
             _appSettings = appSettings.Value;
         }
 
-        public PagedResultViewModel<ClientViewModel> List(string token)
+        public bool List(string token, PagedResultViewModel<ClientViewModel> model)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_appSettings.ApiURL);
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
+                JObject search = new JObject();
+
+                if (model.Id > 0) search.Add("id", model.Id);
+                if (!string.IsNullOrEmpty(model.Name)) search.Add("name", model.Name);
+                if (model.Page != 0) search.Add("page", model.Page);
+                if (model.PageSize != 0) search.Add("page_size", model.PageSize);
+
                 //HTTP POST
-                var postTask = client.PostAsJsonAsync("/api/clients/list", new { });
+                var postTask = client.PostAsJsonAsync("/api/clients/list", search);
                 postTask.Wait();
 
                 var result = postTask.Result;
@@ -39,11 +47,14 @@ namespace InvoiceRegisterClient.Services
                     string jsonContent = result.Content.ReadAsStringAsync().Result;
                     PagedResultViewModel<ClientViewModel> contact = JsonConvert.DeserializeObject<PagedResultViewModel<ClientViewModel>>(jsonContent);
 
-                    return contact;
+                    model.Items.Clear();
+                    model.Items.AddRange(contact.Items);
+
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
     }
 }
