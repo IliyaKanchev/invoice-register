@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using InvoiceRegisterClient.Helpers;
 using InvoiceRegisterClient.Models;
@@ -7,41 +8,42 @@ using Newtonsoft.Json;
 
 namespace InvoiceRegisterClient.Services
 {
-    public interface IAuthenticateService
+    public interface IClientsService
     {
-        User Authenticate(AuthenticateViewModel authenticate);
+        PagedResultViewModel<ClientViewModel> List(string token);
     }
 
-    public class AuthenticateService : IAuthenticateService
+    public class ClientsService : IClientsService
     {
         private readonly AppSettings _appSettings;
 
-        public AuthenticateService(IOptions<AppSettings> appSettings)
+        public ClientsService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
 
-        public User Authenticate(AuthenticateViewModel authenticate)
+        public PagedResultViewModel<ClientViewModel> List(string token)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_appSettings.ApiURL);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
                 //HTTP POST
-                var postTask = client.PostAsJsonAsync("/api/users/authenticate", authenticate);
+                var postTask = client.PostAsJsonAsync("/api/clients/list", new { });
                 postTask.Wait();
 
                 var result = postTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
                     string jsonContent = result.Content.ReadAsStringAsync().Result;
-                    User contact = JsonConvert.DeserializeObject<User>(jsonContent);
+                    PagedResultViewModel<ClientViewModel> contact = JsonConvert.DeserializeObject<PagedResultViewModel<ClientViewModel>>(jsonContent);
 
                     return contact;
                 }
-
-                return null;
             }
+
+            return null;
         }
     }
 }

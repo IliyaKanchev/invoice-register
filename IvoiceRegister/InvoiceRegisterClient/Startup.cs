@@ -38,6 +38,7 @@ namespace InvoiceRegisterClient
             services.Configure<AppSettings>(appSettingsSection);
 
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddScoped<IClientsService, ClientsService>();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
