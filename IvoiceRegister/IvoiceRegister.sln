@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceRegisterServer", "InvoiceRegisterServer\InvoiceRegisterServer.csproj", "{BF1CA7B5-0F26-4386-81AF-3992B4DC5948}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceRegisterClient", "InvoiceRegisterClient\InvoiceRegisterClient.csproj", "{A435BF03-4665-4865-92C9-3DFBDD069AF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{BF1CA7B5-0F26-4386-81AF-3992B4DC5948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1CA7B5-0F26-4386-81AF-3992B4DC5948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1CA7B5-0F26-4386-81AF-3992B4DC5948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A435BF03-4665-4865-92C9-3DFBDD069AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A435BF03-4665-4865-92C9-3DFBDD069AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A435BF03-4665-4865-92C9-3DFBDD069AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A435BF03-4665-4865-92C9-3DFBDD069AF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
