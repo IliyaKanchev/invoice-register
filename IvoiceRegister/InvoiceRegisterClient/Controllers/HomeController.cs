@@ -17,6 +17,7 @@ namespace InvoiceRegisterClient.Controllers
         public HomeController(IClientsService authService)
         {
             _clientsService = authService;
+            PagedResultViewModel<ClientViewModel> _model = new PagedResultViewModel<ClientViewModel>();
         }
 
         public IActionResult Index()
@@ -45,7 +46,8 @@ namespace InvoiceRegisterClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(PagedResultViewModel<ClientViewModel> model)
+        [Route("/home/filter/", Name = "filter")]
+        public IActionResult Filter(PagedResultViewModel<ClientViewModel> model)
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
             bool status = _clientsService.List(token, model);
@@ -55,7 +57,26 @@ namespace InvoiceRegisterClient.Controllers
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
             }
 
-            return View(model);
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        [Route("/home/filter/{inc}/{current}/{size}")]
+        public IActionResult Filter(int inc, int current, int size)
+        {
+            PagedResultViewModel<ClientViewModel> model = new PagedResultViewModel<ClientViewModel>();
+            model.Page = current + inc;
+            model.PageSize = size;
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.List(token, model);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return View("Index", model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

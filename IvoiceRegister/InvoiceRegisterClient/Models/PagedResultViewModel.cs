@@ -20,7 +20,7 @@ namespace InvoiceRegisterClient.Models
             _id = 0;
             _name = "";
 
-            _page = 0;
+            _page = 1;
             _pagesSize = 0;
             _pagesCount = 0;
 

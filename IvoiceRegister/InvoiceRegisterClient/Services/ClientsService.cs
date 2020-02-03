@@ -34,8 +34,8 @@ namespace InvoiceRegisterClient.Services
 
                 if (model.Id > 0) search.Add("id", model.Id);
                 if (!string.IsNullOrEmpty(model.Name)) search.Add("name", model.Name);
-                if (model.Page != 0) search.Add("page", model.Page);
                 if (model.PageSize != 0) search.Add("page_size", model.PageSize);
+                search.Add("page", model.Page);
 
                 //HTTP POST
                 var postTask = client.PostAsJsonAsync("/api/clients/list", search);
@@ -49,6 +49,11 @@ namespace InvoiceRegisterClient.Services
 
                     model.Items.Clear();
                     model.Items.AddRange(contact.Items);
+                    model.Page = contact.Page;
+                    model.PagesCount = contact.PagesCount;
+                    model.PageSize = contact.PageSize;
+                    model.Id = contact.Id;
+                    model.Name = contact.Name;
 
                     return true;
                 }
