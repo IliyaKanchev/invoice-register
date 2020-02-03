@@ -17,7 +17,6 @@ namespace InvoiceRegisterClient.Controllers
         public HomeController(IClientsService authService)
         {
             _clientsService = authService;
-            PagedResultViewModel<ClientViewModel> _model = new PagedResultViewModel<ClientViewModel>();
         }
 
         public IActionResult Index()

@@ -15,5 +15,6 @@
     <Folder Include="Views\Authenticate\" />
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\Clients\" />
   </ItemGroup>
 </Project>

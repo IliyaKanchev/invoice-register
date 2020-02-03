@@ -12,6 +12,7 @@ namespace InvoiceRegisterClient.Services
     public interface IClientsService
     {
         bool List(string token, PagedResultViewModel<ClientViewModel> model);
+        bool Save(string token, ClientViewModel model);
     }
 
     public class ClientsService : IClientsService
@@ -45,16 +46,40 @@ namespace InvoiceRegisterClient.Services
                 if (result.IsSuccessStatusCode)
                 {
                     string jsonContent = result.Content.ReadAsStringAsync().Result;
-                    PagedResultViewModel<ClientViewModel> contact = JsonConvert.DeserializeObject<PagedResultViewModel<ClientViewModel>>(jsonContent);
+                    PagedResultViewModel<ClientViewModel> response = JsonConvert.DeserializeObject<PagedResultViewModel<ClientViewModel>>(jsonContent);
 
                     model.Items.Clear();
-                    model.Items.AddRange(contact.Items);
-                    model.Page = contact.Page;
-                    model.PagesCount = contact.PagesCount;
-                    model.PageSize = contact.PageSize;
-                    model.Id = contact.Id;
-                    model.Name = contact.Name;
+                    model.Items.AddRange(response.Items);
+                    model.Page = response.Page;
+                    model.PagesCount = response.PagesCount;
+                    model.PageSize = response.PageSize;
+                    model.Id = response.Id;
+                    model.Name = response.Name;
 
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool Save(string token, ClientViewModel model)
+        {
+            Console.WriteLine(model.Id);
+            Console.WriteLine(model.Name);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_appSettings.ApiURL);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync("/api/clients/update", model);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
                     return true;
                 }
             }
