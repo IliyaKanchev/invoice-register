@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -59,11 +60,22 @@ namespace InvoiceRegisterClient.Models
 
         [JsonIgnore] public int InvoiceId { get => _invoiceId; set => _invoiceId = value; }
         [JsonIgnore] public int InvoiceNumber { get => _invoiceNumber; set => _invoiceNumber = value; }
+
+        [DataType(DataType.Date), Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceDate { get => _invoiceDate; set => _invoiceDate = value; }
+
         [JsonIgnore] public string InvoiceDescription { get => _invoiceDescription; set => _invoiceDescription = value; }
         [JsonIgnore] public double InvoiceSum { get => _invoiceSum; set => _invoiceSum = value; }
+
+        [DataType(DataType.Date), Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceBefore { get => _invoiceBefore; set => _invoiceBefore = value; }
+
+        [DataType(DataType.Date), Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceAfter { get => _invoiceAfter; set => _invoiceAfter = value; }
+
         [JsonIgnore] public bool InvoiceReversed { get => _invoiceReversed; set => _invoiceReversed = value; }
         [JsonIgnore] public int InvoicePage { get => _invoicePage; set => _invoicePage = value; }
         [JsonIgnore] public int InvoicePageSize { get => _invoicePageSize; set => _invoicePageSize = value; }
