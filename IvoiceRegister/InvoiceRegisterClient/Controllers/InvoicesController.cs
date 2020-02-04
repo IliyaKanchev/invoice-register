@@ -62,6 +62,26 @@ namespace InvoiceRegisterClient.Controllers
             return View("DetailedClient", model);
         }
 
+        [HttpGet]
+        [Route("filter/{inc}/{current}/{size}/{clientId}")]
+        public IActionResult Filter(int inc, int current, int size, int clientId)
+        {
+            ClientViewModelWithInvoices model = new ClientViewModelWithInvoices();
+            model.Id = clientId;
+            model.InvoicePage = current + inc;
+            model.InvoicePageSize = size;
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _invoicesService.List(token, model);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return View("DetailedClient", model);
+        }
+
         [Route("delete/{id}")]
         public IActionResult Delete(int id)
         {

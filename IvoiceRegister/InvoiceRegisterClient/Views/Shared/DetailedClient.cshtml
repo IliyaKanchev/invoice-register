@@ -72,6 +72,41 @@ ViewData["Title"] = "Client Detailes";
     <a class="btn btn-primary mb-3 ml-1" href="@Url.Action("add", "invoices", new { id=Model.Id})" role="button">New</a>
 </form>
 
+<hr /> @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="row">
+    <div class="col-xs-1 ml-4">
+        <label class="mt-2" for="pages">Page @Model.InvoicePage of @Model.InvoicePagesCount</label>
+    </div>
+    <div class="col">
+        <ul class="pagination" id="pages">
+            @Html.HiddenFor(model => model.Id)
+            
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("filter", "invoices", new { inc = -1, current = Model.InvoicePage, size = Model.InvoicePageSize, clientId = Model.Id })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <select class="custom-select" onchange="javascript:location.href = this.value;">
+                    <option value="#">Select page</option>
+                    @for(var i = 1; i <= Model.InvoicePagesCount; i++)
+                    {
+                        <option value="@Url.Action("filter", "invoices", new { inc = 0, current = i, size = Model.InvoicePageSize, clientId = Model.Id })">@i</option>
+                    }
+                </select>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("filter", "invoices", new { inc = 1, current = Model.InvoicePage, size = Model.InvoicePageSize, clientId = Model.Id })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <table class="table">
     <tr>
         <th>
