@@ -28,7 +28,8 @@ namespace InvoiceRegisterClient.Models
         public List<T> Items { get => _items; set => _items = value; }
     }
 
-    public class PagedClientsViewModel : PagedResultViewModel<ClientViewModel>
+    // visualization helper, containing private List<ClientViewModel> filtering data
+    public class PagedClientsViewModel : PagedResultViewModel<ClientViewModelWithInvoices>
     {
         private string _name;
         private int _id;

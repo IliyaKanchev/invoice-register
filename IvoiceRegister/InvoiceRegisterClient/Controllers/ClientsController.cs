@@ -81,7 +81,7 @@ namespace InvoiceRegisterClient.Controllers
 
         [HttpPost]
         [Route("save", Name = "save")]
-        public IActionResult Save(ClientViewModel client)
+        public IActionResult Save(ClientViewModelWithInvoices client)
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
             bool status = _clientsService.Save(token, client);
@@ -98,7 +98,7 @@ namespace InvoiceRegisterClient.Controllers
 
         [HttpPost]
         [Route("add", Name = "add")]
-        public IActionResult Add(ClientViewModel client)
+        public IActionResult Add(ClientViewModelWithInvoices client)
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
             bool status = _clientsService.Add(token, client);

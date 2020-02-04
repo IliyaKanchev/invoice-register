@@ -12,8 +12,8 @@ namespace InvoiceRegisterClient.Services
     public interface IClientsService
     {
         bool List(string token, PagedClientsViewModel model);
-        bool Save(string token, ClientViewModel model);
-        bool Add(string token, ClientViewModel model);
+        bool Save(string token, ClientViewModelWithInvoices model);
+        bool Add(string token, ClientViewModelWithInvoices model);
         bool Delete(string token, int id);
     }
 
@@ -65,7 +65,7 @@ namespace InvoiceRegisterClient.Services
             return false;
         }
 
-        public bool Save(string token, ClientViewModel model)
+        public bool Save(string token, ClientViewModelWithInvoices model)
         {
             using (var client = new HttpClient())
             {
@@ -91,7 +91,7 @@ namespace InvoiceRegisterClient.Services
             return false;
         }
 
-        public bool Add(string token, ClientViewModel model)
+        public bool Add(string token, ClientViewModelWithInvoices model)
         {
             using (var client = new HttpClient())
             {
