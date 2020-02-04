@@ -51,7 +51,7 @@ namespace InvoiceRegisterClient.Models
             _invoiceAfter = DateTime.FromFileTimeUtc(0);
             _invoiceBefore = DateTime.FromFileTimeUtc(0);
             _invoiceReversed = false;
-            _invoicePage = 0;
+            _invoicePage = 1;
             _invoicePageSize = 0;
             _invoicePagesCount = 0;
 
@@ -91,7 +91,7 @@ namespace InvoiceRegisterClient.Models
             return search;
         }
 
-        public void FillFromInvoicesPagedResult(PagedResultViewModel<InvoiceViewModel> pagedResult)
+        public void UpdateFromInvoicesPagedResult(PagedResultViewModel<InvoiceViewModel> pagedResult)
         {
             Invoices.Clear();
             Invoices.AddRange(pagedResult.Items);
