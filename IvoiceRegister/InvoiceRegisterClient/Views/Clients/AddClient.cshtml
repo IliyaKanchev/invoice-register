@@ -5,7 +5,7 @@
 @model InvoiceRegisterClient.Models.ClientViewModel
 
 @{
-ViewData["Title"] = "Edit Client";
+ViewData["Title"] = "Add Client";
 }
 
 <h2>Edit client</h2>
@@ -23,7 +23,7 @@ ViewData["Title"] = "Edit Client";
         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-2" } })
     </div>
 
-    <button type="submit" class="btn btn-primary mb-3" asp-route="save">Save</button>
+    <button type="submit" class="btn btn-primary mb-3" asp-route="add">Add</button>
 </form>
 
 <div>

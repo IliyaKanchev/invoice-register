@@ -11,8 +11,10 @@ namespace InvoiceRegisterClient.Services
 {
     public interface IClientsService
     {
-        bool List(string token, PagedResultViewModel<ClientViewModel> model);
+        bool List(string token, PagedClientsViewModel model);
         bool Save(string token, ClientViewModel model);
+        bool Add(string token, ClientViewModel model);
+        bool Delete(string token, int id);
     }
 
     public class ClientsService : IClientsService
@@ -24,7 +26,7 @@ namespace InvoiceRegisterClient.Services
             _appSettings = appSettings.Value;
         }
 
-        public bool List(string token, PagedResultViewModel<ClientViewModel> model)
+        public bool List(string token, PagedClientsViewModel model)
         {
             using (var client = new HttpClient())
             {
@@ -46,7 +48,7 @@ namespace InvoiceRegisterClient.Services
                 if (result.IsSuccessStatusCode)
                 {
                     string jsonContent = result.Content.ReadAsStringAsync().Result;
-                    PagedResultViewModel<ClientViewModel> response = JsonConvert.DeserializeObject<PagedResultViewModel<ClientViewModel>>(jsonContent);
+                    PagedClientsViewModel response = JsonConvert.DeserializeObject<PagedClientsViewModel>(jsonContent);
 
                     model.Items.Clear();
                     model.Items.AddRange(response.Items);
@@ -72,6 +74,63 @@ namespace InvoiceRegisterClient.Services
 
                 //HTTP POST
                 var postTask = client.PostAsJsonAsync("/api/clients/update", model);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                string jsonContent = result.Content.ReadAsStringAsync().Result;
+                JObject response = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+                Console.WriteLine("# error: " + response.SelectToken("error").Value<string>());
+            }
+
+            return false;
+        }
+
+        public bool Add(string token, ClientViewModel model)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_appSettings.ApiURL);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync("/api/clients/insert", model);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                string jsonContent = result.Content.ReadAsStringAsync().Result;
+                JObject response = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+                Console.WriteLine("# error: " + response.SelectToken("error").Value<string>());
+            }
+
+            return false;
+        }
+
+        public bool Delete(string token, int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_appSettings.ApiURL);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+                JObject search = new JObject
+                {
+                    { "id", id }
+                };
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync("/api/clients/delete", search);
                 postTask.Wait();
 
                 var result = postTask.Result;

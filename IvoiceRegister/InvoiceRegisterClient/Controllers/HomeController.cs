@@ -22,7 +22,7 @@ namespace InvoiceRegisterClient.Controllers
         public IActionResult Index()
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
-            PagedResultViewModel<ClientViewModel> model = new PagedResultViewModel<ClientViewModel>();
+            PagedClientsViewModel model = new PagedClientsViewModel();
 
             if (token == null)
             {
@@ -46,7 +46,7 @@ namespace InvoiceRegisterClient.Controllers
 
         [HttpPost]
         [Route("/home/filter/", Name = "filter")]
-        public IActionResult Filter(PagedResultViewModel<ClientViewModel> model)
+        public IActionResult Filter(PagedClientsViewModel model)
         {
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
             bool status = _clientsService.List(token, model);
@@ -63,7 +63,7 @@ namespace InvoiceRegisterClient.Controllers
         [Route("/home/filter/{inc}/{current}/{size}")]
         public IActionResult Filter(int inc, int current, int size)
         {
-            PagedResultViewModel<ClientViewModel> model = new PagedResultViewModel<ClientViewModel>();
+            PagedClientsViewModel model = new PagedClientsViewModel();
             model.Page = current + inc;
             model.PageSize = size;
 

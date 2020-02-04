@@ -1,4 +1,4 @@
-﻿@model InvoiceRegisterClient.Models.PagedResultViewModel<InvoiceRegisterClient.Models.ClientViewModel>
+﻿@model InvoiceRegisterClient.Models.PagedClientsViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,7 +20,7 @@
     @Html.EditorFor(model => model.PageSize, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1" } })
 
     <button type="submit" class="btn btn-primary mb-3" asp-route="filter">Filter</button>
-    <button type="button" class="btn btn-primary mb-3 ml-1">New</button>
+    <a class="btn btn-primary mb-3 ml-1" href="@Url.Action("add", "clients")" role="button">New</a>
 </form>
 
 <hr /> @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -71,8 +71,8 @@
             </td>
             <td>
                 <a href="@Url.Action("edit", "clients", new { id=item.Id })">Edit</a> |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                <a href="@Url.Action("details", "clients", new { id=item.Id })">Details</a> |
+                <a href="@Url.Action("delete", "clients", new { id=item.Id })">Delete</a>
             </td>
         </tr>
     }

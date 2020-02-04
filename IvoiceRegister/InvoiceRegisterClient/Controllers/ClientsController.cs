@@ -21,11 +21,18 @@ namespace InvoiceRegisterClient.Controllers
             _clientsService = authService;
         }
 
+        // GET: /<controller>/add
+        [Route("add")]
+        public IActionResult Add()
+        {
+            return View("AddClient");
+        }
+
         // GET: /<controller>/edit
         [Route("edit/{id}")]
         public IActionResult Edit(int id)
         {
-            PagedResultViewModel<ClientViewModel> results = new PagedResultViewModel<ClientViewModel>();
+            PagedClientsViewModel results = new PagedClientsViewModel();
             results.Id = id;
 
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
@@ -37,6 +44,39 @@ namespace InvoiceRegisterClient.Controllers
             }
 
             return View("EditClient", results.Items[0]);
+        }
+
+        // GET: /<controller>/details
+        [Route("details/{id}")]
+        public IActionResult Details(int id)
+        {
+            PagedClientsViewModel results = new PagedClientsViewModel();
+            results.Id = id;
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.List(token, results);
+
+            if (!(status || results.Items.Any()))
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return View("DetailedClient", results.Items[0]);
+        }
+
+        // GET: /<controller>/delete
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.Delete(token, id);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return Redirect("~/");
         }
 
         [HttpPost]
@@ -54,6 +94,23 @@ namespace InvoiceRegisterClient.Controllers
             ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
 
             return View("EditClient", client);
+        }
+
+        [HttpPost]
+        [Route("add", Name = "add")]
+        public IActionResult Add(ClientViewModel client)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.Add(token, client);
+
+            if (status)
+            {
+                return Redirect("~/");
+            }
+
+            ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            return View("AddClient", client);
         }
     }
 }
