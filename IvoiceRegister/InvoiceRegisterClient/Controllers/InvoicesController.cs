@@ -21,7 +21,15 @@ namespace InvoiceRegisterClient.Controllers
             _invoicesService = authService;
         }
 
-        // GET: /<invoices>/edit
+        [Route("add/{id}")]
+        public IActionResult Add(int id)
+        {
+            InvoiceViewModel invoice = new InvoiceViewModel();
+            invoice.ClientId = id;
+
+            return View("AddInvoice", invoice);
+        }
+
         [Route("edit/{id}")]
         public IActionResult Edit(int id)
         {
@@ -54,6 +62,20 @@ namespace InvoiceRegisterClient.Controllers
             return View("DetailedClient", model);
         }
 
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            int clientId = _invoicesService.Delete(token, id);
+
+            if (clientId == 0)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return Redirect("~/clients/details/" + clientId.ToString());
+        }
+
         [HttpPost]
         [Route("save", Name = "isave")]
         public IActionResult Save(InvoiceViewModel invoice)
@@ -69,6 +91,23 @@ namespace InvoiceRegisterClient.Controllers
             ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
 
             return View("EditInvoice", invoice);
+        }
+
+        [HttpPost]
+        [Route("add", Name = "iadd")]
+        public IActionResult Add(InvoiceViewModel invoice)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _invoicesService.Add(token, invoice);
+
+            if (status)
+            {
+                return Redirect("~/clients/details/" + invoice.ClientId.ToString());
+            }
+
+            ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            return View("AddInvoice", invoice);
         }
     }
 }

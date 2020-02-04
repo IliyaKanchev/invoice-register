@@ -69,7 +69,7 @@ ViewData["Title"] = "Client Detailes";
     </div>
 
     <button type="submit" class="btn btn-primary mb-3" asp-route="ifilter">Filter</button>
-<!--    <a class="btn btn-primary mb-3 ml-1" href="@Url.Action("add", "clients")" role="button">New</a>-->
+    <a class="btn btn-primary mb-3 ml-1" href="@Url.Action("add", "invoices", new { id=Model.Id})" role="button">New</a>
 </form>
 
 <table class="table">
