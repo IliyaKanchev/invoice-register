@@ -40,7 +40,7 @@ namespace InvoiceRegisterClient.Services
                 {
                     string jsonContent = result.Content.ReadAsStringAsync().Result;
                     PagedResultViewModel<InvoiceViewModel> response = JsonConvert.DeserializeObject<PagedResultViewModel<InvoiceViewModel>>(jsonContent);
-
+                    
                     model.UpdateFromInvoicesPagedResult(response);
 
                     return true;

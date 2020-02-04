@@ -88,6 +88,8 @@ namespace InvoiceRegisterClient.Models
             if (_invoicePage > 0) search.Add("page", _invoicePage);
             if (_invoicePageSize > 0) search.Add("page_size", _invoicePageSize);
 
+            Console.WriteLine(search);
+
             return search;
         }
 
