@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace InvoiceRegisterClient.Models
 {
@@ -14,11 +15,13 @@ namespace InvoiceRegisterClient.Models
         {
             _id = 0;
             _name = "";
+
+            _invoices = new List<InvoiceViewModel>();
         }
 
-        public int Id { get => _id; set => _id = value; }
-        public string Name { get => _name; set => _name = value; }
+        [JsonProperty("id")] public int Id { get => _id; set => _id = value; }
+        [JsonProperty("name")] public string Name { get => _name; set => _name = value; }
 
-        public List<InvoiceViewModel> Invoices { get => _invoices; set => _invoices = value; }
+        [JsonProperty("invoices")] public List<InvoiceViewModel> Invoices { get => _invoices; set => _invoices = value; }
     }
 }

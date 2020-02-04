@@ -15,6 +15,9 @@ ViewData["Title"] = "Edit Client";
 <form method="post">
     @Html.AntiForgeryToken()
     
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Invoices)
+    
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "mb-3 col-sm-1" })
         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-2" } })

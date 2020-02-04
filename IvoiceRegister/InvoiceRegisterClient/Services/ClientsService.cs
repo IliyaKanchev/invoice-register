@@ -65,9 +65,6 @@ namespace InvoiceRegisterClient.Services
 
         public bool Save(string token, ClientViewModel model)
         {
-            Console.WriteLine(model.Id);
-            Console.WriteLine(model.Name);
-
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_appSettings.ApiURL);
@@ -82,6 +79,11 @@ namespace InvoiceRegisterClient.Services
                 {
                     return true;
                 }
+
+                string jsonContent = result.Content.ReadAsStringAsync().Result;
+                JObject response = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+                Console.WriteLine("# error: " + response.SelectToken("error").Value<string>());
             }
 
             return false;
