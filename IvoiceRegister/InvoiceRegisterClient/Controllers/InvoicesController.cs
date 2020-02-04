@@ -21,6 +21,24 @@ namespace InvoiceRegisterClient.Controllers
             _invoicesService = authService;
         }
 
+        // GET: /<invoices>/edit
+        [Route("edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            ClientViewModelWithInvoices results = new ClientViewModelWithInvoices();
+            results.InvoiceId = id;
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _invoicesService.List(token, results);
+
+            if (!(status || results.Invoices.Any()))
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            return View("EditInvoice", results.Invoices[0]);
+        }
+
         [HttpPost]
         [Route("filter", Name = "ifilter")]
         public IActionResult Filter(ClientViewModelWithInvoices model)
@@ -34,6 +52,23 @@ namespace InvoiceRegisterClient.Controllers
             }
 
             return View("DetailedClient", model);
+        }
+
+        [HttpPost]
+        [Route("save", Name = "isave")]
+        public IActionResult Save(InvoiceViewModel invoice)
+        {
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _invoicesService.Save(token, invoice);
+
+            if (status)
+            {
+                return Redirect("~/clients/details/" + invoice.ClientId.ToString());
+            }
+
+            ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            return View("EditInvoice", invoice);
         }
     }
 }

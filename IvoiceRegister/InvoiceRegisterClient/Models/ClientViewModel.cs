@@ -86,11 +86,11 @@ namespace InvoiceRegisterClient.Models
         {
             JObject search = new JObject
             {
-                { "client_id", Id },
                 { "reversed", _invoiceReversed }
             };
 
             if (_invoiceId != 0) search.Add("id", _invoiceId);
+            if (Id != 0) search.Add("client_id", Id);
             if (_invoiceNumber != 0) search.Add("number", _invoiceNumber);
             if (_invoiceDate != DateTime.FromFileTimeUtc(0)) search.Add("date", _invoiceDate);
             if (!string.IsNullOrEmpty(_invoiceDescription)) search.Add("description", _invoiceDescription);

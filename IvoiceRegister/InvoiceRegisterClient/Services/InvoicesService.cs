@@ -4,6 +4,7 @@ using InvoiceRegisterClient.Helpers;
 using InvoiceRegisterClient.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace InvoiceRegisterClient.Services
 {
@@ -52,6 +53,27 @@ namespace InvoiceRegisterClient.Services
 
         public bool Save(string token, InvoiceViewModel model)
         {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_appSettings.ApiURL);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync("/api/invoices/update", model);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                string jsonContent = result.Content.ReadAsStringAsync().Result;
+                JObject response = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+                Console.WriteLine("# error: " + response.SelectToken("error").Value<string>());
+            }
+
             return false;
         }
 

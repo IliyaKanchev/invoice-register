@@ -16,5 +16,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Clients\" />
+    <Folder Include="Views\Invoices\" />
   </ItemGroup>
 </Project>
