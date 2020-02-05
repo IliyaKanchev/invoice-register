@@ -63,12 +63,16 @@ namespace InvoiceRegisterClient.Controllers
         }
 
         [HttpGet]
-        [Route("filter/{inc}/{current}/{size}/{clientId}")]
-        public IActionResult Filter(int inc, int current, int size, int clientId)
+        [Route("filter/{inc}/{current}/{size}/{count}/{clientId}")]
+        public IActionResult Filter(int inc, int current, int size, int count, int clientId)
         {
+            int newPage = current + inc;
+            if (newPage > count) newPage = count;
+            if (newPage <= 0) newPage = 1;
+
             ClientViewModelWithInvoices model = new ClientViewModelWithInvoices();
             model.Id = clientId;
-            model.InvoicePage = current + inc;
+            model.InvoicePage = newPage;
             model.InvoicePageSize = size;
 
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
