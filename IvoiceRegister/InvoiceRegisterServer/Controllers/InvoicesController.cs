@@ -93,22 +93,20 @@ namespace InvoiceRegisterServer.Controllers
                 }
             }
 
+            List<Invoice> lst = null;
+
             if (page > 0 && pageSize > 0)
             {
-                List<Invoice> lst = null;
-
                 if (ascending) lst = _context.Invoices.Where(predicate).OrderBy(x => x.Id).ToPagedList(page, pageSize).ToList();
                 else lst = _context.Invoices.Where(predicate).OrderByDescending(x => x.Id).ToPagedList(page, pageSize).ToList();
 
                 pagesCount = _context.Invoices.Where(predicate).Count() / pageSize;
+            } else {
+                if (ascending) lst = _context.Invoices.Where(predicate).OrderBy(x => x.Id).ToList();
+                else lst = _context.Invoices.Where(predicate).OrderByDescending(x => x.Id).ToList();
+            }
 
-                return new PagedResult<Invoice>(page, pageSize, pagesCount, lst);
-            }
-            else
-            {
-                if (ascending) return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderBy(x => x.Id).ToList());
-                else return new PagedResult<Invoice>(page, pageSize, pagesCount, _context.Invoices.Where(predicate).OrderByDescending(x => x.Id).ToList());
-            }
+            return new PagedResult<Invoice>(page, pageSize, pagesCount, lst);
 
         }
 

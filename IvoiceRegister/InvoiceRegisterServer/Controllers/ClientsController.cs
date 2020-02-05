@@ -57,16 +57,15 @@ namespace InvoiceRegisterServer.Controllers
                 }
             }
 
+            List<Client> lst = null;
+
             if (page > 0 && pageSize > 0)
             {
-                pagesCount = _context.Clients.Count() / pageSize;
+                lst = _context.Clients.Include(client => client.Invoices).Where(predicate).ToPagedList(page, pageSize).ToList();
+                pagesCount = _context.Clients.Where(predicate).Count() / pageSize;
+            } else lst = _context.Clients.Include(client => client.Invoices).Where(predicate).ToList();
 
-                return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).ToPagedList(page, pageSize).ToList());
-            }
-            else
-            {
-                return new PagedResult<Client>(page, pageSize, pagesCount, _context.Clients.Include(client => client.Invoices).Where(predicate).ToList());
-            }
+            return new PagedResult<Client>(page, pageSize, pagesCount, lst);
         }
 
         // POST api/clients/insert
