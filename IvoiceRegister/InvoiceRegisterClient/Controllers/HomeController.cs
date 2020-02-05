@@ -60,11 +60,15 @@ namespace InvoiceRegisterClient.Controllers
         }
 
         [HttpGet]
-        [Route("/home/filter/{inc}/{current}/{size}")]
-        public IActionResult Filter(int inc, int current, int size)
+        [Route("/home/filter/{inc}/{current}/{size}/{count}")]
+        public IActionResult Filter(int inc, int current, int size, int count)
         {
+            int newPage = current + inc;
+            if (newPage > count) newPage = count;
+            if (newPage <= 0) newPage = 1;
+
             PagedClientsViewModel model = new PagedClientsViewModel();
-            model.Page = current + inc;
+            model.Page = newPage;
             model.PageSize = size;
 
             string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
