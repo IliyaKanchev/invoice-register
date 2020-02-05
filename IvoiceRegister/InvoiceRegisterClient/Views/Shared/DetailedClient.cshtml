@@ -7,6 +7,26 @@
 ViewData["Title"] = "Client Detailes";
 }
 
+@section Styles {
+    <link href="~/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script src="~/lib/moment/moment-with-locales.min.js"></script>
+    <script src="~/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        function setByID(id) {
+            $(id).datetimepicker({
+                //format: "YYYY-MM-DD HH:mm:ss.SSS",
+                useCurrent: false
+            });
+        };
+    
+        setByID('#invoiceDatePicker');
+        setByID('#invoiceBeforePicker');
+        setByID('#invoiceAfterPicker');
+    </script>
+}
+
 <h2>Client Details</h2>
 
 <hr /> @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -48,13 +68,13 @@ ViewData["Title"] = "Client Detailes";
     
     <div class="form-inline">
         <label class = "mb-3 col-sm-1">Date</label>
-        @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control mb-3" } })
+        @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control mb-3", type = "text", id = "invoiceDatePicker" } })
         
         <label class = "mb-3 col-sm-1">Before</label>
-        @Html.EditorFor(model => model.InvoiceBefore, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1" } })
+        @Html.EditorFor(model => model.InvoiceBefore, new { htmlAttributes = new { @class = "form-control mb-3", type = "text", id = "invoiceBeforePicker" } })
         
         <label class = "mb-3 col-sm-1">After</label>
-        @Html.EditorFor(model => model.InvoiceAfter, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1" } })
+        @Html.EditorFor(model => model.InvoiceAfter, new { htmlAttributes = new { @class = "form-control mb-3", type = "text", id = "invoiceAfterPicker" } })
     </div>
     
     <div class="form-inline">

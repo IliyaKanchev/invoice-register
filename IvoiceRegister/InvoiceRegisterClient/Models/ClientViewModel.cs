@@ -46,11 +46,11 @@ namespace InvoiceRegisterClient.Models
         {
             _invoiceId = 0;
             _invoiceNumber = 0;
-            _invoiceDate = DateTime.FromFileTimeUtc(0);
+            _invoiceDate = DateTime.Now;
             _invoiceDescription = "";
             _invoiceSum = 0.0;
-            _invoiceAfter = DateTime.FromFileTimeUtc(0);
-            _invoiceBefore = DateTime.FromFileTimeUtc(0);
+            _invoiceAfter = DateTime.Now;
+            _invoiceBefore = DateTime.Now;
             _invoiceReversed = false;
             _invoicePage = 1;
             _invoicePageSize = 0;
@@ -61,19 +61,19 @@ namespace InvoiceRegisterClient.Models
         [JsonIgnore] public int InvoiceId { get => _invoiceId; set => _invoiceId = value; }
         [JsonIgnore] public int InvoiceNumber { get => _invoiceNumber; set => _invoiceNumber = value; }
 
-        [DataType(DataType.Date), Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceDate { get => _invoiceDate; set => _invoiceDate = value; }
 
         [JsonIgnore] public string InvoiceDescription { get => _invoiceDescription; set => _invoiceDescription = value; }
         [JsonIgnore] public double InvoiceSum { get => _invoiceSum; set => _invoiceSum = value; }
 
-        [DataType(DataType.Date), Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceBefore { get => _invoiceBefore; set => _invoiceBefore = value; }
 
-        [DataType(DataType.Date), Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         [JsonIgnore] public DateTime InvoiceAfter { get => _invoiceAfter; set => _invoiceAfter = value; }
 
         [JsonIgnore] public bool InvoiceReversed { get => _invoiceReversed; set => _invoiceReversed = value; }
@@ -100,8 +100,9 @@ namespace InvoiceRegisterClient.Models
             if (_invoicePage > 0) search.Add("page", _invoicePage);
             if (_invoicePageSize > 0) search.Add("page_size", _invoicePageSize);
 
-            //Console.WriteLine(search);
+            Console.WriteLine(search);
             //Console.WriteLine(_invoiceSum);
+
 
             return search;
         }
