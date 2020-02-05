@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace InvoiceRegisterClient.Models
 {
     public class AuthenticateViewModel
@@ -13,6 +15,6 @@ namespace InvoiceRegisterClient.Models
         }
 
         public string Username { get => _username; set => _username = value; }
-        public string Password { get => _password; set => _password = value; }
+        [DataType(DataType.Password)] public string Password { get => _password; set => _password = value; }
     }
 }
