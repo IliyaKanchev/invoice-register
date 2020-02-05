@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using InvoiceRegisterClient.Helpers;
@@ -66,6 +67,15 @@ namespace InvoiceRegisterClient
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // set custom culture for a proper "double" handling
+            app.UseRequestLocalization();
+
+            CultureInfo customCulture = new CultureInfo("custom");
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+            CultureInfo.DefaultThreadCurrentCulture = customCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -62,7 +62,7 @@ ViewData["Title"] = "Client Detailes";
         @Html.EditorFor(model => model.InvoiceDescription, new { htmlAttributes = new { @class = "form-control mb-3" } })
         
         <label class = "mb-3 col-sm-1">Sum</label>
-        @Html.EditorFor(model => model.InvoiceSum, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0 } })
+        @Html.EditorFor(model => model.InvoiceSum, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", type = "number", min = 0, step = 0.01 } })
         
         <label class = "mb-3 col-sm-1">Reversed</label>
         @Html.EditorFor(model => model.InvoiceReversed, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1" } })
