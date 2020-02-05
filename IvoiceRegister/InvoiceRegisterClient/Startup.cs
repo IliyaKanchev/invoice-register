@@ -71,11 +71,11 @@ namespace InvoiceRegisterClient
             // set custom culture for a proper "double" handling
             app.UseRequestLocalization();
 
-            CultureInfo customCulture = new CultureInfo("custom");
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            CultureInfo.DefaultThreadCurrentCulture = (CultureInfo) CultureInfo.CurrentCulture.Clone();
+            CultureInfo.DefaultThreadCurrentUICulture = (CultureInfo) CultureInfo.CurrentUICulture.Clone();
 
-            CultureInfo.DefaultThreadCurrentCulture = customCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = customCulture;
+            CultureInfo.DefaultThreadCurrentCulture.NumberFormat.NumberDecimalSeparator = ".";
+            CultureInfo.DefaultThreadCurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
