@@ -61,7 +61,7 @@ ViewData["Title"] = "Client Detailes";
     @Html.AntiForgeryToken()
     
     @Html.HiddenFor(model => model.Id)
-    
+
     <div class="form-inline">
         <label class = "mb-3 col-sm-1">Number</label>
         @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-2", min = 0 } })
