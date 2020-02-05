@@ -30,6 +30,8 @@ namespace InvoiceRegisterClient.Models
     // visualization helper, containing private List<InvoiceViewModel> filtering data
     public class ClientViewModelWithInvoices : ClientViewModel
     {
+        private DateTime _switch;
+
         private int _invoiceId;
         private int _invoiceNumber;
         private DateTime _invoiceDate;
@@ -44,13 +46,17 @@ namespace InvoiceRegisterClient.Models
 
         public ClientViewModelWithInvoices()
         {
+            _switch = DateTime.FromBinary(0);
+            //_switch = new DateTime(_switch.Year, _switch.Month, _switch.Day, _switch.Hour, _switch.Minute, _switch.Second);
+
+
             _invoiceId = 0;
             _invoiceNumber = 0;
-            _invoiceDate = DateTime.Now;
+            _invoiceDate = _switch;
             _invoiceDescription = "";
             _invoiceSum = 0.0;
-            _invoiceAfter = DateTime.Now;
-            _invoiceBefore = DateTime.Now;
+            _invoiceAfter = _switch;
+            _invoiceBefore = _switch;
             _invoiceReversed = false;
             _invoicePage = 1;
             _invoicePageSize = 0;
@@ -92,16 +98,16 @@ namespace InvoiceRegisterClient.Models
             if (_invoiceId != 0) search.Add("id", _invoiceId);
             if (Id != 0) search.Add("client_id", Id);
             if (_invoiceNumber != 0) search.Add("number", _invoiceNumber);
-            if (_invoiceDate != DateTime.FromFileTimeUtc(0)) search.Add("date", _invoiceDate);
+            if (_invoiceDate != _switch) search.Add("date", _invoiceDate);
             if (!string.IsNullOrEmpty(_invoiceDescription)) search.Add("description", _invoiceDescription);
             if (!_invoiceSum.Equals(0.0)) search.Add("sum", _invoiceSum);
-            if (_invoiceBefore != DateTime.FromFileTimeUtc(0)) search.Add("before", _invoiceBefore);
-            if (_invoiceAfter != DateTime.FromFileTimeUtc(0)) search.Add("after", _invoiceAfter);
+            if (_invoiceBefore != _switch) search.Add("before", _invoiceBefore);
+            if (_invoiceAfter != _switch) search.Add("after", _invoiceAfter);
             if (_invoicePage > 0) search.Add("page", _invoicePage);
             if (_invoicePageSize > 0) search.Add("page_size", _invoicePageSize);
 
             Console.WriteLine(search);
-            //Console.WriteLine(_invoiceSum);
+            Console.WriteLine(_switch);
 
 
             return search;
