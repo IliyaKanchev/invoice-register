@@ -1,7 +1,9 @@
 # invoice-register
 This is a jod interview assignment.
 
-## assignment
+For more detailed info about the application architecture, the taken decisions and more, read the "explanation.txt" file.
+
+## Assignment
 
 Implement 3-tier Invoice Register application written in C#. Use Microsoft SQL Server database to store the data web technology of your choice for the client. Application server should be а web - based API endpoint
 
