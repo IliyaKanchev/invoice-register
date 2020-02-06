@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -106,8 +107,8 @@ namespace InvoiceRegisterClient.Models
             if (_invoicePage > 0) search.Add("page", _invoicePage);
             if (_invoicePageSize > 0) search.Add("page_size", _invoicePageSize);
 
-            Console.WriteLine(search);
-            Console.WriteLine(_switch);
+            //Console.WriteLine(search);
+            //Console.WriteLine(_switch);
 
 
             return search;
@@ -121,6 +122,42 @@ namespace InvoiceRegisterClient.Models
             _invoicePage = pagedResult.Page;
             _invoicePageSize = pagedResult.PageSize;
             _invoicePagesCount = pagedResult.PagesCount;
+        }
+
+        public string ToSerializeInvoiceSearch()
+        {
+            string data = JsonConvert.SerializeObject(ToInvoicesSearch());
+            byte[] buffer = Encoding.UTF8.GetBytes(data);
+            string serialized = Convert.ToBase64String(buffer);
+
+            return serialized;
+        }
+
+        public void UpdateFromSearchSerialization(string b64)
+        {
+            byte[] buffer = Convert.FromBase64String(b64);
+            string data = Encoding.UTF8.GetString(buffer);
+
+            //Console.WriteLine(data);
+
+            JObject search = JsonConvert.DeserializeObject<JObject>(data);
+
+            //Console.WriteLine(search);
+
+            foreach (JProperty property in search.Properties())
+            {
+                if (property.Name == "id") _invoiceId = search.SelectToken(property.Name).Value<int>();
+                if (property.Name == "client_id") Id = search.SelectToken(property.Name).Value<int>();
+                if (property.Name == "number") _invoiceNumber = search.SelectToken(property.Name).Value<int>();
+                if (property.Name == "date") _invoiceDate = search.SelectToken(property.Name).Value<DateTime>();
+                if (property.Name == "description") _invoiceDescription = search.SelectToken(property.Name).Value<string>();
+                if (property.Name == "sum") _invoiceSum = search.SelectToken(property.Name).Value<double>();
+                if (property.Name == "before") _invoiceBefore = search.SelectToken(property.Name).Value<DateTime>();
+                if (property.Name == "after") _invoiceAfter = search.SelectToken(property.Name).Value<DateTime>();
+                if (property.Name == "page") _invoicePage = search.SelectToken(property.Name).Value<int>();
+                if (property.Name == "page_size") _invoicePageSize = search.SelectToken(property.Name).Value<int>();
+                if (property.Name == "reversed") _invoiceReversed = search.SelectToken(property.Name).Value<bool>();
+            }
         }
     }
 }
