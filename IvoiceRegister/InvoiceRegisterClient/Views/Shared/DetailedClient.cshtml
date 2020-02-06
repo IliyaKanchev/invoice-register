@@ -17,18 +17,9 @@ ViewData["Title"] = "Client Detailes";
     <script src="~/lib/moment/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">    
-        function setByID(id) {
-            var picker = $(id);
-            
-            picker.datetimepicker();
-        
-            // programmatically clearing of default model value for aestetics
-            if (picker.val() == "0001.01.01 00:00") picker.val("");
-        };
-    
-        setByID('#invoiceDatePicker');
-        setByID('#invoiceBeforePicker');
-        setByID('#invoiceAfterPicker');
+        initDateTimePicker('#invoiceDatePicker');
+        initDateTimePicker('#invoiceBeforePicker');
+        initDateTimePicker('#invoiceAfterPicker');
     </script>
 }
 
