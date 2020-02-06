@@ -1,6 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@using InvoiceRegisterClient.Helpers
+
 @model InvoiceRegisterClient.Models.ClientViewModelWithInvoices
 
 @{
@@ -13,20 +16,15 @@ ViewData["Title"] = "Client Detailes";
 @section Scripts {
     <script src="~/lib/moment/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript">
-        //moment.defaultFormat = "DD.MM.YYYY HH:mm";
-    
+    <script type="text/javascript">    
         function setByID(id) {
             var picker = $(id);
             
-            picker.datetimepicker({
-                //format: "YYYY-MM-DD HH:mm:ss.SSS",
-                //format: "YYYY.MM.DD HH:mm",
-                //format: "YYYY/MM/DD HH:mm",
-                //useCurrent: true,
-                defaultDate: ""
-            });
-    };
+            picker.datetimepicker();
+        
+            // programmatically clearing of default model value for aestetics
+            if (picker.val() == "0001.01.01 00:00") picker.val("");
+        };
     
         setByID('#invoiceDatePicker');
         setByID('#invoiceBeforePicker');
