@@ -34,3 +34,5 @@ You can find a brief description of the API exit points and protocol messages ex
 
 The default credentials can be found in the "login.txt" file in the root of this repo.
 
+This software is developed using MonoDevelop under Linux.
+
