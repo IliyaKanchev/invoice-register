@@ -13,6 +13,7 @@ ViewData["Title"] = "Client Detailes";
 @section Styles {
     <link href="~/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
 }
+
 @section Scripts {
     <script src="~/lib/moment/moment-with-locales.min.js"></script>
     <script src="~/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
@@ -20,6 +21,11 @@ ViewData["Title"] = "Client Detailes";
         initDateTimePicker('#invoiceDatePicker');
         initDateTimePicker('#invoiceBeforePicker');
         initDateTimePicker('#invoiceAfterPicker');
+        
+        initNumericInput('#invoiceNumberInput');
+        initNumericInput('#invoiceIdInput');
+        initNumericInput('#invoicePageSizeInput');
+        initNumericInput('#invoiceSumInput');
     </script>
 }
 
@@ -53,13 +59,13 @@ ViewData["Title"] = "Client Detailes";
 
     <div class="form-inline">
         <label class = "mb-3 col-sm-1">Number</label>
-        @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-2", min = 0 } })
+        @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-2", min = 0, id = "invoiceNumberInput" } })
         
         <label class = "mb-3 col-sm-1">Id</label>
-        @Html.EditorFor(model => model.InvoiceId, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0 } })
+        @Html.EditorFor(model => model.InvoiceId, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0, id = "invoiceIdInput" } })
         
         <label class = "mb-3 col-sm-1">Page Size</label>
-        @Html.EditorFor(model => model.InvoicePageSize, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0 } })
+        @Html.EditorFor(model => model.InvoicePageSize, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0, id = "invoicePageSizeInput" } })
     </div>
     
     <div class="form-inline">
@@ -78,7 +84,7 @@ ViewData["Title"] = "Client Detailes";
         @Html.EditorFor(model => model.InvoiceDescription, new { htmlAttributes = new { @class = "form-control mb-3" } })
         
         <label class = "mb-3 col-sm-1">Sum</label>
-        @Html.EditorFor(model => model.InvoiceSum, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", type = "number", min = 0, step = 0.01 } })
+        @Html.EditorFor(model => model.InvoiceSum, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", type = "number", min = 0, step = 0.01, id = "invoiceSumInput" } })
         
         <label class = "mb-3 col-sm-1">Reversed</label>
         @Html.EditorFor(model => model.InvoiceReversed, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1" } })

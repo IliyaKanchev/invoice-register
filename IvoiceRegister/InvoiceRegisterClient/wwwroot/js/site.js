@@ -11,3 +11,10 @@ function initDateTimePicker(id) {
     // programmatically clearing of default model value for aestetics
     if (picker.val() == "0001.01.01 00:00") picker.val("");
 };
+
+function initNumericInput(id) {
+    var input = $(id);
+    
+    // programmatically clearing of default model value for aestetics
+    if (input.val() == "0") input.val("");
+};
