@@ -5,14 +5,14 @@ Implement 3-tier Invoice Register application written in C#. Use Microsoft SQL S
 
 The API provided from the application server should expose methods for:
 
-•	Obtain a filtered list of invoices;
-•	Register a new invoice;
-•	Update existing invoice;
-•	Delete existing invoice;
-•	Obtain a filtered list of clients;
-•	Register a new client;
-•	Update existing client;
-•	Delete existing client.
+	• Obtain a filtered list of invoices;
+	• Register a new invoice;
+	• Update existing invoice;
+	• Delete existing invoice;
+	• Obtain a filtered list of clients;
+	• Register a new client;
+	• Update existing client;
+	• Delete existing client.
 
 Use this API in the client application.
 
