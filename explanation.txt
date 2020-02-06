@@ -1,0 +1,36 @@
+Since at my interview become clear that you are seeking for a full-stack .NET developer 
+I choose to realize this entire solution via .NET Core stack. I used .NET WebAPI for server. 
+For database ORM I selected EntityFramework, because it's the Microsoft's solution for 
+code-first database management. For a communication channel I used http requests. 
+As an c technique I used JWToken.
+
+Some of the ORM alternatives are XPO (DevExpress), Dapper (StackExchange), 
+NHibernate (the oldest one), but I choose to go with EF, because I am most experienced with it
+and because it's developed by Microsoft as a part of the standard .NET Core stack.
+
+As an alternative to the http requests as a form of a client-server communication I could've
+use WebSocket, but then two things would've happen:
+
+	A) I wouldn't use .NET WebAPI
+	B) The client would've been implemented on Angular/Angular material
+
+As of result I'd be demonstrating little to no skills at .NET Core full-stack. So I choose 
+not to implement them.
+
+As an alternative to JWT I could've use cookie or a custom authentication scheme developed
+by me. I chose with JWT because it's cleaner than cookie and easier than developing a scheme
+from zero. It's also stateless and once authorized the user mustn't logout and the token itself 
+can be stored within the user's session.
+
+About the invoices... I'd personally add another db table, containing each of the invoice's 
+products lists. But it wasn't into the assignment, so I didn't do it.
+
+There's also a users table within the DB. It contains all of the authorized users. Again, there
+wasn't user management within the assignment, so I didn't add that as well, although it's good 
+to have one.
+
+You can find a brief description of the API exit points and protocol messages examples in the 
+"Docs" folder in the root of this repo.
+
+The default credentials can be found in the "login.txt" file in the root of this repo.
+
