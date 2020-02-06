@@ -45,6 +45,25 @@ namespace InvoiceRegisterClient.Controllers
         }
 
         [HttpPost]
+        [Route("/home/clear/", Name = "clear")]
+        public IActionResult Clear(PagedClientsViewModel model)
+        {
+            PagedClientsViewModel clear = new PagedClientsViewModel();
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _clientsService.List(token, clear);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            ModelState.Clear();
+
+            return View("Index", clear);
+        }
+
+        [HttpPost]
         [Route("/home/filter/", Name = "filter")]
         public IActionResult Filter(PagedClientsViewModel model)
         {

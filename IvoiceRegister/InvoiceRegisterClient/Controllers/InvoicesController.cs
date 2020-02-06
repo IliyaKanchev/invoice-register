@@ -62,6 +62,26 @@ namespace InvoiceRegisterClient.Controllers
             return View("DetailedClient", model);
         }
 
+        [HttpPost]
+        [Route("clear", Name = "iclear")]
+        public IActionResult Clear(ClientViewModelWithInvoices model)
+        {
+            ClientViewModelWithInvoices clear = new ClientViewModelWithInvoices();
+            clear.Id = model.Id;
+
+            string token = HttpContext.Session.GetString("InvoiceRegisterJWToken");
+            bool status = _invoicesService.List(token, clear);
+
+            if (!status)
+            {
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            }
+
+            ModelState.Clear();
+
+            return View("DetailedClient", clear);
+        }
+
         [HttpGet]
         [Route("filter/{inc}/{count}/{b64}")]
         public IActionResult Filter(int inc, int count, string b64)

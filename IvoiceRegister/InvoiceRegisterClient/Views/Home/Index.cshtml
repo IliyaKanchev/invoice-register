@@ -27,6 +27,7 @@
     @Html.EditorFor(model => model.PageSize, new { htmlAttributes = new { @class = "form-control mb-3 mr-sm-1", min = 0, id = "clientPageSizeInput" } })
 
     <button type="submit" class="btn btn-primary mb-3" asp-route="filter">Filter</button>
+    <button type="submit" class="btn btn-primary mb-3 ml-1" asp-route="clear">Clear</button>
     <a class="btn btn-primary mb-3 ml-1" href="@Url.Action("add", "clients")" role="button">New</a>
 </form>
 
